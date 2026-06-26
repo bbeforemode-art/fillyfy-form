@@ -16,7 +16,7 @@ function getStripe(): Stripe {
 // Backward-compatible export via Proxy
 export const stripe = new Proxy({} as Stripe, {
   get(_, prop) {
-    return (getStripe() as Record<string, unknown>)[prop as string];
+    return (getStripe() as unknown as Record<string, unknown>)[prop as string];
   },
 });
 

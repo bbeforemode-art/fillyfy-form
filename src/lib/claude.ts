@@ -1,9 +1,15 @@
-import Anthropic from '@anthropic-ai/sdk';
+import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime';
 import type { FieldContext, ExplanationResponse } from './types';
 
-const client = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
+const client = new BedrockRuntimeClient({
+  region: process.env.AWS_REGION || 'us-east-1',
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+  },
 });
+
+const MODEL_ID = 'anthropic.claude-sonnet-4-20250514-v1:0';
 
 const SYSTEM_PROMPT = `You are Fillyfy, an expert form guide. A user is filling a form and needs help with a specific field. Respond ONLY with valid JSON in this exact format:
 {
@@ -29,32 +35,35 @@ Please explain this field.`;
 }
 
 /**
- * Calls Claude API with field context and returns a structured explanation.
+ * Calls Claude via AWS Bedrock with field context and returns a structured explanation.
  * Throws on timeout (30s) or API errors.
  */
 export async function getExplanation(context: FieldContext): Promise<ExplanationResponse> {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 30_000);
+  const body = JSON.stringify({
+    anthropic_version: 'bedrock-2023-05-31',
+    max_tokens: 500,
+    system: SYSTEM_PROMPT,
+    messages: [{ role: 'user', content: buildUserPrompt(context) }],
+  });
 
-  try {
-    const message = await client.messages.create(
-      {
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 500,
-        system: SYSTEM_PROMPT,
-        messages: [{ role: 'user', content: buildUserPrompt(context) }],
-      },
-      { signal: controller.signal }
-    );
+  const command = new InvokeModelCommand({
+    modelId: MODEL_ID,
+    contentType: 'application/json',
+    accept: 'application/json',
+    body: new TextEncoder().encode(body),
+  });
 
-    const text = message.content[0].type === 'text' ? message.content[0].text : '';
-    const jsonMatch = text.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      throw new Error('Invalid response format from AI');
-    }
+  const response = await client.send(command, {
+    requestTimeout: 30_000,
+  });
 
-    return JSON.parse(jsonMatch[0]) as ExplanationResponse;
-  } finally {
-    clearTimeout(timeout);
+  const responseBody = JSON.parse(new TextDecoder().decode(response.body));
+  const text = responseBody.content?.[0]?.text || '';
+
+  const jsonMatch = text.match(/\{[\s\S]*\}/);
+  if (!jsonMatch) {
+    throw new Error('Invalid response format from AI');
   }
+
+  return JSON.parse(jsonMatch[0]) as ExplanationResponse;
 }
