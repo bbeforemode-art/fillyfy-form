@@ -1,7 +1,7 @@
 import fc from 'fast-check';
 
 // Mock external dependencies before imports
-jest.mock('@/lib/stripe', () => ({
+jest.mock('@/lib/razorpay', () => ({
   verifyWebhookSignature: jest.fn(),
 }));
 
@@ -11,8 +11,8 @@ jest.mock('@/lib/supabase', () => ({
   },
 }));
 
-import { POST } from '@/app/api/webhooks/stripe/route';
-import { verifyWebhookSignature } from '@/lib/stripe';
+import { POST } from '@/app/api/webhooks/razorpay/route';
+import { verifyWebhookSignature } from '@/lib/razorpay';
 import { supabase } from '@/lib/supabase';
 
 const mockVerifyWebhookSignature = verifyWebhookSignature as jest.Mock;
@@ -21,10 +21,10 @@ const mockFrom = supabase.from as jest.Mock;
 function makeWebhookRequest(body: string, signature: string | null = 'sig_valid'): Request {
   const headers: Record<string, string> = {};
   if (signature !== null) {
-    headers['stripe-signature'] = signature;
+    headers['x-razorpay-signature'] = signature;
   }
 
-  return new Request('http://localhost/api/webhooks/stripe', {
+  return new Request('http://localhost/api/webhooks/razorpay', {
     method: 'POST',
     headers,
     body,
@@ -32,42 +32,46 @@ function makeWebhookRequest(body: string, signature: string | null = 'sig_valid'
 }
 
 /**
- * Property 9: Checkout webhook upgrades plan to pro
- * For any valid checkout.session.completed event, user plan updates to "pro"
+ * Property 9: Subscription activated webhook upgrades plan
+ * For any valid subscription.activated event, user plan updates accordingly
  * Validates: Requirements 5.2
  */
-describe('Property 9: Checkout webhook upgrades plan to pro', () => {
+describe('Property 9: Subscription activated webhook upgrades plan', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  test('checkout.session.completed event updates plan to pro', async () => {
+  test('subscription.activated event updates plan correctly', async () => {
     const userIdArb = fc.string({ minLength: 5, maxLength: 30 }).map(s => `user_${s.replace(/[^a-zA-Z0-9]/g, 'x')}`);
-    const customerIdArb = fc.string({ minLength: 5, maxLength: 30 }).map(s => `cus_${s.replace(/[^a-zA-Z0-9]/g, 'x')}`);
     const subscriptionIdArb = fc.string({ minLength: 5, maxLength: 30 }).map(s => `sub_${s.replace(/[^a-zA-Z0-9]/g, 'x')}`);
+    const planArb = fc.constantFrom('starter', 'pro', 'business');
 
     await fc.assert(
       fc.asyncProperty(
         userIdArb,
-        customerIdArb,
         subscriptionIdArb,
-        async (clerkUserId, customerId, subscriptionId) => {
+        planArb,
+        async (clerkUserId, subscriptionId, plan) => {
           jest.clearAllMocks();
 
           const event = {
-            type: 'checkout.session.completed',
-            data: {
-              object: {
-                metadata: { clerk_user_id: clerkUserId },
-                customer: customerId,
-                subscription: subscriptionId,
+            event: 'subscription.activated',
+            payload: {
+              subscription: {
+                entity: {
+                  id: subscriptionId,
+                  notes: {
+                    clerk_user_id: clerkUserId,
+                    email: 'test@example.com',
+                    plan: plan,
+                  },
+                },
               },
             },
           };
 
-          mockVerifyWebhookSignature.mockReturnValue(event);
+          mockVerifyWebhookSignature.mockReturnValue(true);
 
-          // Mock supabase update
           const mockEq = jest.fn().mockResolvedValue({ error: null });
           const mockUpdate = jest.fn().mockReturnValue({ eq: mockEq });
 
@@ -85,10 +89,9 @@ describe('Property 9: Checkout webhook upgrades plan to pro', () => {
           expect(response.status).toBe(200);
           expect(data.received).toBe(true);
 
-          // Verify update was called with plan_status: 'pro'
           expect(mockUpdate).toHaveBeenCalledWith({
-            plan_status: 'pro',
-            stripe_customer_id: customerId,
+            plan_status: plan,
+            stripe_customer_id: subscriptionId,
             stripe_subscription_id: subscriptionId,
           });
           expect(mockEq).toHaveBeenCalledWith('clerk_user_id', clerkUserId);
@@ -101,7 +104,7 @@ describe('Property 9: Checkout webhook upgrades plan to pro', () => {
 
 /**
  * Property 10: Cancellation webhook downgrades plan to free
- * For any subscription.deleted or payment_failed event, user plan updates to "free"
+ * For any subscription.cancelled or payment.failed event, user plan updates to "free"
  * Validates: Requirements 5.3
  */
 describe('Property 10: Cancellation webhook downgrades plan to free', () => {
@@ -109,23 +112,29 @@ describe('Property 10: Cancellation webhook downgrades plan to free', () => {
     jest.clearAllMocks();
   });
 
-  test('customer.subscription.deleted downgrades to free', async () => {
-    const customerIdArb = fc.string({ minLength: 5, maxLength: 30 }).map(s => `cus_${s.replace(/[^a-zA-Z0-9]/g, 'x')}`);
+  test('subscription.cancelled downgrades to free', async () => {
+    const userIdArb = fc.string({ minLength: 5, maxLength: 30 }).map(s => `user_${s.replace(/[^a-zA-Z0-9]/g, 'x')}`);
 
     await fc.assert(
-      fc.asyncProperty(customerIdArb, async (customerId) => {
+      fc.asyncProperty(userIdArb, async (clerkUserId) => {
         jest.clearAllMocks();
 
         const event = {
-          type: 'customer.subscription.deleted',
-          data: {
-            object: {
-              customer: customerId,
+          event: 'subscription.cancelled',
+          payload: {
+            subscription: {
+              entity: {
+                id: 'sub_cancelled',
+                notes: {
+                  clerk_user_id: clerkUserId,
+                  plan: 'pro',
+                },
+              },
             },
           },
         };
 
-        mockVerifyWebhookSignature.mockReturnValue(event);
+        mockVerifyWebhookSignature.mockReturnValue(true);
 
         const mockEq = jest.fn().mockResolvedValue({ error: null });
         const mockUpdate = jest.fn().mockReturnValue({ eq: mockEq });
@@ -144,29 +153,35 @@ describe('Property 10: Cancellation webhook downgrades plan to free', () => {
         expect(response.status).toBe(200);
         expect(data.received).toBe(true);
         expect(mockUpdate).toHaveBeenCalledWith({ plan_status: 'free' });
-        expect(mockEq).toHaveBeenCalledWith('stripe_customer_id', customerId);
+        expect(mockEq).toHaveBeenCalledWith('clerk_user_id', clerkUserId);
       }),
       { numRuns: 100 }
     );
   });
 
-  test('invoice.payment_failed downgrades to free', async () => {
-    const customerIdArb = fc.string({ minLength: 5, maxLength: 30 }).map(s => `cus_${s.replace(/[^a-zA-Z0-9]/g, 'x')}`);
+  test('payment.failed downgrades to free', async () => {
+    const userIdArb = fc.string({ minLength: 5, maxLength: 30 }).map(s => `user_${s.replace(/[^a-zA-Z0-9]/g, 'x')}`);
 
     await fc.assert(
-      fc.asyncProperty(customerIdArb, async (customerId) => {
+      fc.asyncProperty(userIdArb, async (clerkUserId) => {
         jest.clearAllMocks();
 
         const event = {
-          type: 'invoice.payment_failed',
-          data: {
-            object: {
-              customer: customerId,
+          event: 'payment.failed',
+          payload: {
+            subscription: {
+              entity: {
+                id: 'sub_failed',
+                notes: {
+                  clerk_user_id: clerkUserId,
+                  plan: 'pro',
+                },
+              },
             },
           },
         };
 
-        mockVerifyWebhookSignature.mockReturnValue(event);
+        mockVerifyWebhookSignature.mockReturnValue(true);
 
         const mockEq = jest.fn().mockResolvedValue({ error: null });
         const mockUpdate = jest.fn().mockReturnValue({ eq: mockEq });
@@ -185,7 +200,7 @@ describe('Property 10: Cancellation webhook downgrades plan to free', () => {
         expect(response.status).toBe(200);
         expect(data.received).toBe(true);
         expect(mockUpdate).toHaveBeenCalledWith({ plan_status: 'free' });
-        expect(mockEq).toHaveBeenCalledWith('stripe_customer_id', customerId);
+        expect(mockEq).toHaveBeenCalledWith('clerk_user_id', clerkUserId);
       }),
       { numRuns: 100 }
     );
@@ -204,16 +219,13 @@ describe('Property 11: Invalid webhook signatures produce no side effects', () =
 
   test('invalid signatures return 400 and do not modify DB', async () => {
     const invalidSignatureArb = fc.string({ minLength: 1, maxLength: 100 });
-    const bodyArb = fc.string({ minLength: 1, maxLength: 500 });
+    const bodyArb = fc.json();
 
     await fc.assert(
       fc.asyncProperty(invalidSignatureArb, bodyArb, async (signature, body) => {
         jest.clearAllMocks();
 
-        // Mock verifyWebhookSignature to throw (invalid signature)
-        mockVerifyWebhookSignature.mockImplementation(() => {
-          throw new Error('Invalid signature');
-        });
+        mockVerifyWebhookSignature.mockReturnValue(false);
 
         const request = makeWebhookRequest(body, signature);
         const response = await POST(request);

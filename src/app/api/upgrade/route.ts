@@ -1,6 +1,6 @@
 import { auth, currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
-import { createCheckoutSession } from '@/lib/stripe';
+import { createSubscription } from '@/lib/razorpay';
 
 const VALID_PLANS = ['starter', 'pro', 'business'];
 
@@ -24,6 +24,6 @@ export async function GET(request: Request) {
   const user = await currentUser();
   const email = user?.emailAddresses?.[0]?.emailAddress || '';
 
-  const checkoutUrl = await createCheckoutSession(userId, email, plan);
+  const checkoutUrl = await createSubscription(userId, email, plan);
   redirect(checkoutUrl);
 }

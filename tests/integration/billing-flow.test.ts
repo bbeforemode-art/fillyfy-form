@@ -1,11 +1,11 @@
 /**
  * Integration tests for the billing flow.
- * Tests webhook processing and Stripe integration.
- * Mocks: Stripe verifyWebhookSignature, Supabase
+ * Tests webhook processing and Razorpay integration.
+ * Mocks: Razorpay verifyWebhookSignature, Supabase
  */
 
 // Mock external dependencies before imports
-jest.mock('@/lib/stripe', () => ({
+jest.mock('@/lib/razorpay', () => ({
   verifyWebhookSignature: jest.fn(),
 }));
 
@@ -15,20 +15,20 @@ jest.mock('@/lib/supabase', () => ({
   },
 }));
 
-import { POST } from '@/app/api/webhooks/stripe/route';
-import { verifyWebhookSignature } from '@/lib/stripe';
+import { POST } from '@/app/api/webhooks/razorpay/route';
+import { verifyWebhookSignature } from '@/lib/razorpay';
 import { supabase } from '@/lib/supabase';
 
 const mockVerifyWebhookSignature = verifyWebhookSignature as jest.Mock;
 const mockFrom = supabase.from as jest.Mock;
 
-function makeWebhookRequest(body: string, signature: string | null = 'whsec_valid_signature'): Request {
+function makeWebhookRequest(body: string, signature: string | null = 'valid_signature'): Request {
   const headers: Record<string, string> = { 'content-type': 'application/json' };
   if (signature !== null) {
-    headers['stripe-signature'] = signature;
+    headers['x-razorpay-signature'] = signature;
   }
 
-  return new Request('http://localhost/api/webhooks/stripe', {
+  return new Request('http://localhost/api/webhooks/razorpay', {
     method: 'POST',
     headers,
     body,
@@ -40,20 +40,25 @@ describe('Integration: Billing Flow', () => {
     jest.clearAllMocks();
   });
 
-  describe('1. Valid checkout.session.completed webhook → plan updated to "pro"', () => {
-    test('upgrades user plan to pro and stores Stripe IDs', async () => {
+  describe('1. Valid subscription.activated webhook → plan updated to "pro"', () => {
+    test('upgrades user plan to pro and stores subscription ID', async () => {
       const event = {
-        type: 'checkout.session.completed',
-        data: {
-          object: {
-            metadata: { clerk_user_id: 'user_abc123' },
-            customer: 'cus_stripe_customer_1',
-            subscription: 'sub_stripe_subscription_1',
+        event: 'subscription.activated',
+        payload: {
+          subscription: {
+            entity: {
+              id: 'sub_razorpay_123',
+              notes: {
+                clerk_user_id: 'user_abc123',
+                email: 'user@example.com',
+                plan: 'pro',
+              },
+            },
           },
         },
       };
 
-      mockVerifyWebhookSignature.mockReturnValue(event);
+      mockVerifyWebhookSignature.mockReturnValue(true);
 
       const mockEq = jest.fn().mockResolvedValue({ error: null });
       const mockUpdate = jest.fn().mockReturnValue({ eq: mockEq });
@@ -75,25 +80,26 @@ describe('Integration: Billing Flow', () => {
       expect(mockFrom).toHaveBeenCalledWith('users');
       expect(mockUpdate).toHaveBeenCalledWith({
         plan_status: 'pro',
-        stripe_customer_id: 'cus_stripe_customer_1',
-        stripe_subscription_id: 'sub_stripe_subscription_1',
+        stripe_customer_id: 'sub_razorpay_123',
+        stripe_subscription_id: 'sub_razorpay_123',
       });
       expect(mockEq).toHaveBeenCalledWith('clerk_user_id', 'user_abc123');
     });
 
-    test('handles checkout event without clerk_user_id gracefully', async () => {
+    test('handles subscription event without clerk_user_id gracefully', async () => {
       const event = {
-        type: 'checkout.session.completed',
-        data: {
-          object: {
-            metadata: {},
-            customer: 'cus_no_clerk',
-            subscription: 'sub_no_clerk',
+        event: 'subscription.activated',
+        payload: {
+          subscription: {
+            entity: {
+              id: 'sub_no_clerk',
+              notes: {},
+            },
           },
         },
       };
 
-      mockVerifyWebhookSignature.mockReturnValue(event);
+      mockVerifyWebhookSignature.mockReturnValue(true);
 
       const request = makeWebhookRequest(JSON.stringify(event));
       const response = await POST(request);
@@ -106,18 +112,24 @@ describe('Integration: Billing Flow', () => {
     });
   });
 
-  describe('2. Valid customer.subscription.deleted webhook → plan downgraded to "free"', () => {
-    test('downgrades user plan to free on subscription deletion', async () => {
+  describe('2. Valid subscription.cancelled webhook → plan downgraded to "free"', () => {
+    test('downgrades user plan to free on subscription cancellation', async () => {
       const event = {
-        type: 'customer.subscription.deleted',
-        data: {
-          object: {
-            customer: 'cus_downgrade_test',
+        event: 'subscription.cancelled',
+        payload: {
+          subscription: {
+            entity: {
+              id: 'sub_cancel_test',
+              notes: {
+                clerk_user_id: 'user_downgrade',
+                plan: 'pro',
+              },
+            },
           },
         },
       };
 
-      mockVerifyWebhookSignature.mockReturnValue(event);
+      mockVerifyWebhookSignature.mockReturnValue(true);
 
       const mockEq = jest.fn().mockResolvedValue({ error: null });
       const mockUpdate = jest.fn().mockReturnValue({ eq: mockEq });
@@ -137,20 +149,26 @@ describe('Integration: Billing Flow', () => {
 
       expect(mockFrom).toHaveBeenCalledWith('users');
       expect(mockUpdate).toHaveBeenCalledWith({ plan_status: 'free' });
-      expect(mockEq).toHaveBeenCalledWith('stripe_customer_id', 'cus_downgrade_test');
+      expect(mockEq).toHaveBeenCalledWith('clerk_user_id', 'user_downgrade');
     });
 
-    test('downgrades user plan to free on invoice payment failure', async () => {
+    test('downgrades user plan to free on payment failure', async () => {
       const event = {
-        type: 'invoice.payment_failed',
-        data: {
-          object: {
-            customer: 'cus_payment_failed',
+        event: 'payment.failed',
+        payload: {
+          subscription: {
+            entity: {
+              id: 'sub_payment_failed',
+              notes: {
+                clerk_user_id: 'user_payment_failed',
+                plan: 'business',
+              },
+            },
           },
         },
       };
 
-      mockVerifyWebhookSignature.mockReturnValue(event);
+      mockVerifyWebhookSignature.mockReturnValue(true);
 
       const mockEq = jest.fn().mockResolvedValue({ error: null });
       const mockUpdate = jest.fn().mockReturnValue({ eq: mockEq });
@@ -169,18 +187,16 @@ describe('Integration: Billing Flow', () => {
       expect(data.received).toBe(true);
 
       expect(mockUpdate).toHaveBeenCalledWith({ plan_status: 'free' });
-      expect(mockEq).toHaveBeenCalledWith('stripe_customer_id', 'cus_payment_failed');
+      expect(mockEq).toHaveBeenCalledWith('clerk_user_id', 'user_payment_failed');
     });
   });
 
   describe('3. Invalid signature → 400, no DB changes', () => {
     test('returns 400 and makes no DB changes when signature is invalid', async () => {
-      mockVerifyWebhookSignature.mockImplementation(() => {
-        throw new Error('No signatures found matching the expected signature for payload');
-      });
+      mockVerifyWebhookSignature.mockReturnValue(false);
 
-      const body = JSON.stringify({ type: 'checkout.session.completed', data: {} });
-      const request = makeWebhookRequest(body, 'whsec_invalid_signature');
+      const body = JSON.stringify({ event: 'subscription.activated', payload: {} });
+      const request = makeWebhookRequest(body, 'invalid_signature');
       const response = await POST(request);
       const data = await response.json();
 
@@ -194,15 +210,15 @@ describe('Integration: Billing Flow', () => {
   });
 
   describe('4. Missing signature header → 400', () => {
-    test('returns 400 when stripe-signature header is missing', async () => {
-      const body = JSON.stringify({ type: 'checkout.session.completed', data: {} });
+    test('returns 400 when x-razorpay-signature header is missing', async () => {
+      const body = JSON.stringify({ event: 'subscription.activated', payload: {} });
       const request = makeWebhookRequest(body, null);
       const response = await POST(request);
       const data = await response.json();
 
       expect(response.status).toBe(400);
       expect(data.error.code).toBe('WEBHOOK_INVALID');
-      expect(data.error.message).toBe('Missing stripe-signature header');
+      expect(data.error.message).toBe('Missing x-razorpay-signature header');
 
       // Neither verification nor DB should be touched
       expect(mockVerifyWebhookSignature).not.toHaveBeenCalled();
