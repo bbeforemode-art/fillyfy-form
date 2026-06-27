@@ -570,7 +570,10 @@ export default function Home() {
       <footer style={{ background: '#0F172A', padding: '44px 24px' }}>
         <div style={{ maxWidth: '1080px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' as const, gap: '24px' }}>
           <div>
-            <div style={{ fontSize: '18px', fontWeight: 800, color: 'white', marginBottom: '6px', letterSpacing: '-0.02em' }}>Fillyfy</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+              <img src="/logo.png" alt="Fillyfy" style={{ width: '24px', height: '24px', borderRadius: '50%' }} />
+              <span style={{ fontSize: '18px', fontWeight: 800, color: 'white', letterSpacing: '-0.02em' }}>Fillyfy</span>
+            </div>
             <div style={{ fontSize: '13px', color: '#475569' }}>Understand every form. Submit with confidence.</div>
           </div>
           <div style={{ display: 'flex', gap: '28px', flexWrap: 'wrap' as const }}>
