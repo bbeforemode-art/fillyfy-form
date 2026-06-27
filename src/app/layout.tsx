@@ -1,24 +1,35 @@
 import { ClerkProvider } from '@clerk/nextjs';
-import { Inter } from 'next/font/google';
+import { Instrument_Serif, Plus_Jakarta_Sans } from 'next/font/google';
 import type { Metadata } from 'next';
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
+const instrumentSerif = Instrument_Serif({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-display',
+  display: 'swap',
+});
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  variable: '--font-body',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
-  title: 'Fillyfy — Know exactly what to fill',
-  description: 'AI-powered form field explanations. Understand any form field before you fill it.',
+  title: 'Fillyfy — Never wonder what a form is asking again',
+  description: 'AI-powered Chrome extension that explains confusing form fields. Click any field and instantly understand what to enter, common mistakes, and what documents you need.',
   openGraph: {
-    title: 'Fillyfy — Know exactly what to fill',
-    description: 'AI-powered form field explanations. Understand any form field before you fill it.',
+    title: 'Fillyfy — Never wonder what a form is asking again',
+    description: 'AI-powered Chrome extension that explains confusing form fields. Click any field and instantly understand what to enter, common mistakes, and what documents you need.',
     url: 'https://fillyfy.com',
     siteName: 'Fillyfy',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Fillyfy — Know exactly what to fill',
-    description: 'AI-powered form field explanations.',
+    title: 'Fillyfy — Never wonder what a form is asking again',
+    description: 'AI-powered Chrome extension that explains confusing form fields.',
   },
 };
 
@@ -29,8 +40,8 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body className={`${inter.className} bg-gray-950 text-white antialiased`}>
+      <html lang="en" className={`${instrumentSerif.variable} ${plusJakartaSans.variable}`}>
+        <body className="font-body bg-white text-[#0F172A] antialiased">
           {children}
         </body>
       </html>

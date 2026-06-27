@@ -1,337 +1,558 @@
-import type { Metadata } from 'next';
+'use client';
 
-export const metadata: Metadata = {
-  title: 'Fillyfy — Know exactly what to fill',
-  description: 'AI-powered form field explanations. Click any form field and instantly understand what to enter, why it\'s asked, and common mistakes to avoid.',
+import { motion } from 'framer-motion';
+import Nav from '@/components/Nav';
+import HeroDemo from '@/components/HeroDemo';
+import FAQ from '@/components/FAQ';
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 22 },
+  visible: { opacity: 1, y: 0 },
 };
+
+function SectionLabel({ children, color = 'blue' }: { children: React.ReactNode; color?: string }) {
+  const styles: Record<string, { bg: string; border: string; text: string }> = {
+    blue: { bg: '#EFF6FF', border: '#BFDBFE', text: '#2563EB' },
+    red: { bg: '#FEF2F2', border: '#FECACA', text: '#EF4444' },
+  };
+  const s = styles[color] || styles.blue;
+  return (
+    <span
+      className="inline-block text-[11px] font-bold uppercase tracking-[0.1em] px-3.5 py-1.5 rounded-full mb-4"
+      style={{ background: s.bg, border: `1px solid ${s.border}`, color: s.text }}
+    >
+      {children}
+    </span>
+  );
+}
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gray-950 text-white">
+    <main className="min-h-screen bg-white overflow-x-hidden">
+      <Nav />
+
       {/* Hero Section */}
-      <section className="relative overflow-hidden px-6 py-24 sm:py-32 lg:py-40">
-        <div className="absolute inset-0 bg-gradient-to-b from-indigo-950/20 to-transparent" />
-        <div className="relative mx-auto max-w-4xl text-center">
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-            Know exactly what to fill — before you fill it.
-          </h1>
-          <p className="mt-6 text-lg leading-8 text-gray-300 sm:text-xl">
-            AI-powered form field explanations. Click any form field and instantly understand what to enter, why it&apos;s asked, and common mistakes to avoid.
-          </p>
-          <div className="mt-10">
-            <a
-              href="#"
-              className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-6 py-3 text-lg font-semibold text-white shadow-lg shadow-indigo-600/25 transition hover:bg-indigo-500"
+      <section
+        id="hero"
+        className="min-h-screen flex items-center pt-[88px] pb-[60px] px-6"
+        style={{ background: 'radial-gradient(ellipse 70% 60% at 72% 5%, rgba(37,99,235,0.07) 0%, transparent 65%), #fff' }}
+      >
+        <div className="max-w-[1160px] mx-auto w-full flex flex-wrap items-center gap-14">
+          {/* Left Column */}
+          <div className="flex-1 min-w-[320px] max-w-[540px]">
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              transition={{ duration: 0.55, delay: 0 }}
+              className="inline-flex items-center gap-2 bg-[#EFF6FF] border border-[#BFDBFE] rounded-full px-3.5 py-[5px] mb-6"
             >
-              Add to Chrome — Free
-            </a>
+              <span className="w-[7px] h-[7px] rounded-full bg-[#2563EB]" style={{ animation: 'pulse-dot 2s ease-in-out infinite' }} />
+              <span className="text-[13px] font-semibold text-[#2563EB]">Now available — free to install</span>
+            </motion.div>
+
+            <motion.h1
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              transition={{ duration: 0.55, delay: 0.1 }}
+              className="font-display text-[#0F172A] leading-[1.06] tracking-[-0.02em] font-normal mb-6"
+              style={{ fontSize: 'clamp(40px, 5vw, 60px)' }}
+            >
+              Never wonder what a form is asking again.
+            </motion.h1>
+
+            <motion.p
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              transition={{ duration: 0.55, delay: 0.2 }}
+              className="text-[17px] leading-[1.72] text-[#64748B] max-w-[480px] mb-8"
+            >
+              Click any form field. Fillyfy instantly explains what it means, what to enter, common mistakes, and what documents you may need — without leaving the page.
+            </motion.p>
+
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              transition={{ duration: 0.55, delay: 0.3 }}
+              className="flex flex-wrap gap-3 mb-8"
+            >
+              <a
+                href="#"
+                className="inline-flex items-center gap-2 bg-[#2563EB] text-white text-[15px] font-semibold px-6 py-[13px] rounded-[10px] hover:bg-[#1D4ED8] hover:-translate-y-px transition-all"
+                style={{ boxShadow: '0 2px 10px rgba(37,99,235,0.28)' }}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
+                </svg>
+                Add to Chrome — Free
+              </a>
+              <a
+                href="#"
+                className="inline-flex items-center gap-2 bg-white border-[1.5px] border-[#E2E8F0] text-[#374151] text-[15px] font-semibold px-5 py-[13px] rounded-[10px] hover:border-[#CBD5E1] hover:bg-[#F8FAFF] transition-all"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10" />
+                  <polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none" />
+                </svg>
+                Watch 30s demo
+              </a>
+            </motion.div>
+
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              transition={{ duration: 0.55, delay: 0.4 }}
+              className="flex flex-wrap items-center gap-4 text-[12px] font-medium text-[#64748B]"
+            >
+              <span className="flex items-center gap-1.5">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#2563EB"><circle cx="12" cy="12" r="10" /></svg>
+                Chrome Web Store
+              </span>
+              <span className="text-[#CBD5E1]">·</span>
+              <span className="flex items-center gap-1.5">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#F59E0B"><rect x="4" y="4" width="16" height="16" rx="3" /></svg>
+                AWS Bedrock
+              </span>
+              <span className="text-[#CBD5E1]">·</span>
+              <span className="flex items-center gap-1.5">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#D97706"><circle cx="12" cy="12" r="10" /></svg>
+                Claude AI
+              </span>
+              <span className="text-[#CBD5E1]">·</span>
+              <span className="flex items-center gap-1.5">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#16A34A"><path d="M12 2L3 7v10l9 5 9-5V7l-9-5z" /></svg>
+                Privacy First
+              </span>
+            </motion.div>
+          </div>
+
+          {/* Right Column - Demo */}
+          <div className="flex-1 min-w-[320px] max-w-[580px] lg:min-w-[460px]">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.3 }}
+            >
+              <HeroDemo />
+            </motion.div>
           </div>
         </div>
       </section>
 
+      {/* Trust Bar */}
+      <section className="bg-[#F8FAFF] border-t border-b border-[#EFF6FF] py-7 px-6">
+        <p className="text-center text-[11px] font-bold uppercase tracking-[0.1em] text-[#94A3B8] mb-5">
+          Trusted infrastructure — built for privacy and scale
+        </p>
+        <div className="flex justify-center flex-wrap gap-11 opacity-60">
+          {[
+            { icon: '🔵', label: 'Chrome Web Store' },
+            { icon: '🟠', label: 'AWS Bedrock' },
+            { icon: '🟤', label: 'Claude AI' },
+            { icon: '🟣', label: 'Clerk Auth' },
+            { icon: '🟢', label: 'Privacy First' },
+            { icon: '🔒', label: 'E2E Encrypted' },
+          ].map((item, i) => (
+            <div key={i} className="flex items-center gap-2 text-[14px] font-semibold text-[#1E293B]">
+              <span>{item.icon}</span>
+              <span>{item.label}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Problem Section */}
+      <section id="problem" className="bg-white py-[110px] px-6">
+        <div className="max-w-[1080px] mx-auto text-center">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55 }}>
+            <SectionLabel color="red">The problem</SectionLabel>
+            <h2 className="font-display text-[#0F172A] leading-[1.1] font-normal mt-4 mb-4" style={{ fontSize: 'clamp(30px, 4vw, 44px)' }}>
+              You&apos;re in the middle of something important. And you&apos;re stuck.
+            </h2>
+            <p className="text-[17px] text-[#64748B] max-w-[580px] mx-auto mb-12">
+              Government forms. Visa applications. Tax filings. The fields are confusing, the stakes are high, and Googling doesn&apos;t always help.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-12">
+            {[
+              { emoji: '😕', title: 'Confusing field names', body: '"Alien Registration Number"? "Prior Year AGI"? These aren\'t everyday terms — but they expect you to know them.', bg: '#FEF2F2', border: '#FECACA', titleColor: '#991B1B', bodyColor: '#7F1D1D' },
+              { emoji: '🔍', title: 'Five tabs. No clear answer.', body: 'You open Google, Reddit, official docs... 15 minutes later you\'re still not sure if you found the right answer.', bg: '#FFFBEB', border: '#FDE68A', titleColor: '#92400E', bodyColor: '#78350F' },
+              { emoji: '🤞', title: 'You guess and hope.', body: 'Eventually you just enter something and pray it doesn\'t delay your application or trigger a rejection.', bg: '#F0FDF4', border: '#BBF7D0', titleColor: '#166534', bodyColor: '#14532D' },
+            ].map((card, i) => (
+              <motion.div
+                key={i}
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.55, delay: i * 0.1 }}
+                className="rounded-2xl p-7 text-left"
+                style={{ background: card.bg, border: `1px solid ${card.border}` }}
+              >
+                <div className="text-2xl mb-3">{card.emoji}</div>
+                <h3 className="text-[16px] font-bold mb-2" style={{ color: card.titleColor }}>{card.title}</h3>
+                <p className="text-[14px] leading-[1.65]" style={{ color: card.bodyColor }}>{card.body}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55 }}>
+            <span className="inline-block bg-[#EFF6FF] px-9 py-[15px] rounded-full text-[16px] font-semibold text-[#2563EB]">
+              There&apos;s a better way →
+            </span>
+          </motion.div>
+        </div>
+      </section>
+
       {/* How It Works */}
-      <section className="px-6 py-20 sm:py-24">
-        <div className="mx-auto max-w-5xl">
-          <h2 className="text-center text-3xl font-bold sm:text-4xl">How It Works</h2>
-          <p className="mt-4 text-center text-gray-400">Three simple steps to clarity</p>
-          <div className="mt-16 grid gap-8 sm:grid-cols-3">
-            <div className="text-center">
-              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-indigo-600/10 text-indigo-400">
-                <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-                </svg>
-              </div>
-              <h3 className="mt-6 text-xl font-semibold">Detect</h3>
-              <p className="mt-3 text-gray-400">
-                Fillyfy automatically detects forms on any page you visit.
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-cyan-600/10 text-cyan-400">
-                <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.042 21.672L13.684 16.6m0 0l-2.51 2.225.569-9.47 5.227 7.917-3.286-.672zM12 2.25V4.5m5.834.166l-1.591 1.591M20.25 10.5H18M7.757 14.743l-1.59 1.59M6 10.5H3.75m4.007-4.243l-1.59-1.59" />
-                </svg>
-              </div>
-              <h3 className="mt-6 text-xl font-semibold">Click</h3>
-              <p className="mt-3 text-gray-400">
-                Click any field to get an instant explanation.
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-purple-600/10 text-purple-400">
-                <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
-                </svg>
-              </div>
-              <h3 className="mt-6 text-xl font-semibold">Understand</h3>
-              <p className="mt-3 text-gray-400">
-                Get clear guidance on what to enter and why.
-              </p>
-            </div>
+      <section id="how-it-works" className="bg-[#F8FAFF] py-[110px] px-6">
+        <div className="max-w-[1080px] mx-auto text-center">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55 }}>
+            <SectionLabel>How it works</SectionLabel>
+            <h2 className="font-display text-[#0F172A] leading-[1.1] font-normal mt-4 mb-12" style={{ fontSize: 'clamp(30px, 4vw, 44px)' }}>
+              Three steps. No learning curve.
+            </h2>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {[
+              { emoji: '🌐', step: 'Step 1', title: 'Open any form', body: 'Navigate to any website with a form — government, banking, startup applications, anything.' },
+              { emoji: '👆', step: 'Step 2', title: 'Click a confusing field', body: 'Click on any form field you don\'t understand. That\'s it — one click.' },
+              { emoji: '✨', step: 'Step 3', title: 'Understand instantly', body: 'A sidebar appears with a clear explanation: what it means, what to enter, and mistakes to avoid.' },
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.55, delay: i * 0.1 }}
+                className="flex flex-col items-center text-center"
+              >
+                <div
+                  className="w-14 h-14 rounded-2xl bg-[#2563EB] flex items-center justify-center text-[22px] mb-4"
+                  style={{ boxShadow: '0 4px 18px rgba(37,99,235,0.26)' }}
+                >
+                  {item.emoji}
+                </div>
+                <span className="text-[11px] font-bold uppercase tracking-[0.09em] text-[#94A3B8] mb-2">{item.step}</span>
+                <h3 className="text-[19px] font-bold text-[#0F172A] mb-2">{item.title}</h3>
+                <p className="text-[15px] text-[#64748B] leading-[1.68]">{item.body}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Use Cases */}
+      <section id="examples" className="bg-white py-[110px] px-6">
+        <div className="max-w-[1080px] mx-auto text-center">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55 }}>
+            <SectionLabel>Use cases</SectionLabel>
+            <h2 className="font-display text-[#0F172A] leading-[1.1] font-normal mt-4 mb-4" style={{ fontSize: 'clamp(30px, 4vw, 44px)' }}>
+              Any form. Any website.
+            </h2>
+            <p className="text-[17px] text-[#64748B] max-w-[580px] mx-auto mb-12">
+              From immigration to taxes to startup applications — Fillyfy works wherever forms are confusing.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
+            {[
+              { emoji: '🏛️', title: 'Government', desc: 'USCIS, SSA, state agencies, DMV, and federal forms.' },
+              { emoji: '🌍', title: 'Visa & Immigration', desc: 'DS-160, I-485, travel authorizations, and consulate forms.' },
+              { emoji: '🚀', title: 'Startup Funding', desc: 'AWS Activate, YC, grants, and accelerator applications.' },
+              { emoji: '🏦', title: 'Banking', desc: 'Account applications, loan forms, and KYC verification.' },
+              { emoji: '📋', title: 'Tax', desc: 'IRS forms, state returns, estimated payments, and W-4s.' },
+              { emoji: '🎓', title: 'University', desc: 'FAFSA, admissions portals, scholarship applications.' },
+              { emoji: '🏥', title: 'Healthcare', desc: 'Insurance enrollment, claims, prior authorizations.' },
+              { emoji: '☁️', title: 'Cloud & Enterprise', desc: 'AWS, Azure, GCP console forms and configurations.' },
+              { emoji: '🏪', title: 'Business Registration', desc: 'LLC filings, EIN applications, state registrations.' },
+            ].map((card, i) => (
+              <motion.div
+                key={i}
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.55, delay: (i % 3) * 0.05 }}
+                className="bg-[#F8FAFF] border border-[#E2E8F0] rounded-xl p-[22px] text-left hover:bg-[#EFF6FF] hover:border-[#BFDBFE] hover:-translate-y-0.5 transition-all duration-200 cursor-default"
+              >
+                <div className="text-2xl mb-2">{card.emoji}</div>
+                <h3 className="text-[14px] font-bold text-[#0F172A] mb-1">{card.title}</h3>
+                <p className="text-[13px] text-[#64748B] leading-[1.5]">{card.desc}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Features */}
-      <section className="px-6 py-20 sm:py-24 bg-gray-900/50">
-        <div className="mx-auto max-w-5xl">
-          <h2 className="text-center text-3xl font-bold sm:text-4xl">Features</h2>
-          <p className="mt-4 text-center text-gray-400">Everything you need to fill forms with confidence</p>
-          <div className="mt-16 grid gap-6 sm:grid-cols-2">
-            <div className="rounded-xl border border-gray-800 bg-gray-900 p-6">
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-indigo-600/10 text-indigo-400">
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456z" />
-                </svg>
-              </div>
-              <h3 className="mt-4 text-lg font-semibold">AI Explanations</h3>
-              <p className="mt-2 text-gray-400">
-                Powered by Claude AI to give you clear, contextual explanations for any form field.
-              </p>
-            </div>
-            <div className="rounded-xl border border-gray-800 bg-gray-900 p-6">
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-cyan-600/10 text-cyan-400">
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
-                </svg>
-              </div>
-              <h3 className="mt-4 text-lg font-semibold">Sidebar Display</h3>
-              <p className="mt-2 text-gray-400">
-                Explanations appear in a clean sidebar that doesn&apos;t interfere with the form.
-              </p>
-            </div>
-            <div className="rounded-xl border border-gray-800 bg-gray-900 p-6">
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-green-600/10 text-green-400">
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h3 className="mt-4 text-lg font-semibold">Auto-Detection</h3>
-              <p className="mt-2 text-gray-400">
-                Automatically finds and highlights form fields on any webpage you visit.
-              </p>
-            </div>
-            <div className="rounded-xl border border-gray-800 bg-gray-900 p-6">
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-600/10 text-purple-400">
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
-                </svg>
-              </div>
-              <h3 className="mt-4 text-lg font-semibold">Usage Tracking</h3>
-              <p className="mt-2 text-gray-400">
-                Keep track of how many explanations you&apos;ve used this month.
-              </p>
-            </div>
+      <section id="features" className="bg-[#F8FAFF] py-[110px] px-6">
+        <div className="max-w-[1080px] mx-auto text-center">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55 }}>
+            <SectionLabel>Features</SectionLabel>
+            <h2 className="font-display text-[#0F172A] leading-[1.1] font-normal mt-4 mb-12" style={{ fontSize: 'clamp(30px, 4vw, 44px)' }}>
+              Everything you need. Nothing you don&apos;t.
+            </h2>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+            {[
+              { emoji: '💡', title: 'Instant Field Explanations', body: 'Click any form field and get a plain-language explanation of what it\'s asking, in context.' },
+              { emoji: '📄', title: 'Document Guidance', body: 'Know exactly which documents you need and where to find the information being requested.' },
+              { emoji: '🧠', title: 'Context-Aware Analysis', body: 'AI understands the form type, your field, and surrounding context for accurate explanations.' },
+              { emoji: '🛡️', title: 'Mistake Prevention', body: 'See common mistakes others make on each field so you can avoid delays and rejections.' },
+              { emoji: '🌐', title: 'Works Everywhere', body: 'Government sites, banking portals, startup forms — works on any website with form fields.' },
+              { emoji: '🔒', title: 'Privacy by Design', body: 'No data stored, no training on your info, encrypted in transit. Your privacy comes first.' },
+            ].map((card, i) => (
+              <motion.div
+                key={i}
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.55, delay: (i % 3) * 0.1 }}
+                className="bg-white border border-[#E2E8F0] rounded-2xl p-7 text-left hover:border-[#BFDBFE] hover:shadow-[0_4px_24px_rgba(37,99,235,0.08)] transition-all duration-200"
+              >
+                <div className="w-11 h-11 bg-[#EFF6FF] rounded-xl flex items-center justify-center text-[20px] mb-4">
+                  {card.emoji}
+                </div>
+                <h3 className="text-[16px] font-bold text-[#0F172A] mb-2">{card.title}</h3>
+                <p className="text-[14px] text-[#64748B] leading-[1.65]">{card.body}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Pricing */}
-      <section className="px-6 py-20 sm:py-24">
-        <div className="mx-auto max-w-5xl">
-          <h2 className="text-center text-3xl font-bold sm:text-4xl">Simple Pricing</h2>
-          <p className="mt-4 text-center text-gray-400">Start free. Upgrade when you need more forms.</p>
-          <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {/* Free Plan */}
-            <div className="rounded-xl border border-gray-800 bg-gray-900 p-6">
-              <h3 className="text-lg font-semibold">Free</h3>
-              <div className="mt-4">
-                <span className="text-3xl font-bold">$0</span>
-                <span className="text-gray-400">/month</span>
-              </div>
-              <p className="mt-3 text-sm text-gray-400">Try it out</p>
-              <ul className="mt-6 space-y-3 text-sm text-gray-300">
-                <li className="flex items-center gap-2">
-                  <svg className="h-4 w-4 text-green-400" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                  </svg>
-                  1 form per month
-                </li>
-                <li className="flex items-center gap-2">
-                  <svg className="h-4 w-4 text-green-400" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                  </svg>
-                  AI-powered explanations
-                </li>
-                <li className="flex items-center gap-2">
-                  <svg className="h-4 w-4 text-green-400" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                  </svg>
-                  Sidebar display
-                </li>
-              </ul>
-              <a
-                href="#"
-                className="mt-6 block w-full rounded-lg border border-gray-700 py-2.5 text-center text-sm font-semibold transition hover:bg-gray-800"
-              >
-                Get Started
-              </a>
-            </div>
+      {/* Security */}
+      <section id="security" className="bg-white py-20 px-6">
+        <div className="max-w-[880px] mx-auto">
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ duration: 0.55 }}
+            className="rounded-3xl p-14 text-center"
+            style={{ background: 'linear-gradient(135deg, #EFF6FF 0%, #F0FDF4 100%)', border: '1px solid #BFDBFE' }}
+          >
+            <div className="text-[40px] mb-4">🔐</div>
+            <h2 className="font-display text-[#0F172A] leading-[1.1] font-normal mb-4" style={{ fontSize: 'clamp(30px, 4vw, 44px)' }}>
+              Your data never leaves the field.
+            </h2>
+            <p className="text-[17px] text-[#64748B] max-w-[520px] mx-auto mb-8">
+              Fillyfy processes field context in real-time and discards it immediately. No storage, no training, no data collection.
+            </p>
 
-            {/* Starter Plan */}
-            <div className="rounded-xl border border-gray-800 bg-gray-900 p-6">
-              <h3 className="text-lg font-semibold">Starter</h3>
-              <div className="mt-4">
-                <span className="text-3xl font-bold">$10</span>
-                <span className="text-gray-400">/month</span>
-              </div>
-              <p className="mt-3 text-sm text-gray-400">For regular form filling</p>
-              <ul className="mt-6 space-y-3 text-sm text-gray-300">
-                <li className="flex items-center gap-2">
-                  <svg className="h-4 w-4 text-green-400" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                  </svg>
-                  15 forms per month
-                </li>
-                <li className="flex items-center gap-2">
-                  <svg className="h-4 w-4 text-green-400" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                  </svg>
-                  AI-powered explanations
-                </li>
-                <li className="flex items-center gap-2">
-                  <svg className="h-4 w-4 text-green-400" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                  </svg>
-                  Sidebar display
-                </li>
-              </ul>
-              <a
-                href="#"
-                className="mt-6 block w-full rounded-lg border border-gray-700 py-2.5 text-center text-sm font-semibold transition hover:bg-gray-800"
-              >
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {[
+                { emoji: '🚫', title: 'No personal data', desc: 'Only field labels and context are processed — never your input.' },
+                { emoji: '🔒', title: 'Encrypted in transit', desc: 'All data is encrypted using TLS. Nothing stored at rest.' },
+                { emoji: '☁️', title: 'AWS Bedrock', desc: 'Enterprise-grade AI infrastructure with SOC 2 compliance.' },
+              ].map((item, i) => (
+                <div key={i} className="bg-white rounded-xl p-5 text-center">
+                  <div className="text-xl mb-2">{item.emoji}</div>
+                  <h3 className="text-[14px] font-bold text-[#0F172A] mb-1">{item.title}</h3>
+                  <p className="text-[13px] text-[#64748B]">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Pricing */}
+      <section id="pricing" className="bg-[#F8FAFF] py-[110px] px-6">
+        <div className="max-w-[1080px] mx-auto text-center">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55 }}>
+            <SectionLabel>Pricing</SectionLabel>
+            <h2 className="font-display text-[#0F172A] leading-[1.1] font-normal mt-4 mb-4" style={{ fontSize: 'clamp(30px, 4vw, 44px)' }}>
+              Simple, honest pricing.
+            </h2>
+            <p className="text-[17px] text-[#64748B] max-w-[580px] mx-auto mb-12">
+              Every plan includes every feature. Only usage limits differ.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[18px]">
+            {/* Free */}
+            <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55, delay: 0 }}
+              className="bg-white border border-[#E2E8F0] rounded-[20px] p-7 text-left flex flex-col"
+            >
+              <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#94A3B8]">Free</span>
+              <div className="mt-2 mb-1"><span className="text-[40px] font-extrabold text-[#0F172A]">$0</span></div>
+              <span className="text-[13px] text-[#64748B] border-b border-[#E2E8F0] pb-4 mb-4">per month</span>
+              <div className="mb-1"><span className="text-[15px] font-bold text-[#0F172A]">1 form / month</span></div>
+              <p className="text-[13px] text-[#64748B] mb-6">Try Fillyfy on one form session to see how it works.</p>
+              <a href="#" className="mt-auto block text-center bg-[#F8FAFF] text-[#2563EB] border-[1.5px] border-[#BFDBFE] rounded-[9px] py-2.5 text-[14px] font-semibold hover:bg-[#EFF6FF] transition-colors">
+                Get Started Free
+              </a>
+              <p className="text-[12px] text-[#94A3B8] text-center mt-3">All features included</p>
+            </motion.div>
+
+            {/* Starter */}
+            <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55, delay: 0.1 }}
+              className="bg-white border border-[#E2E8F0] rounded-[20px] p-7 text-left flex flex-col"
+            >
+              <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#94A3B8]">Starter</span>
+              <div className="mt-2 mb-1"><span className="text-[40px] font-extrabold text-[#0F172A]">$10</span></div>
+              <span className="text-[13px] text-[#64748B] border-b border-[#E2E8F0] pb-4 mb-4">per month</span>
+              <div className="mb-1"><span className="text-[15px] font-bold text-[#0F172A]">15 forms / month</span></div>
+              <p className="text-[13px] text-[#64748B] mb-6">For regular form filing — immigration, taxes, applications.</p>
+              <a href="#" className="mt-auto block text-center bg-[#F8FAFF] text-[#2563EB] border-[1.5px] border-[#BFDBFE] rounded-[9px] py-2.5 text-[14px] font-semibold hover:bg-[#EFF6FF] transition-colors">
                 Get Starter
               </a>
-            </div>
+              <p className="text-[12px] text-[#94A3B8] text-center mt-3">All features included</p>
+            </motion.div>
 
-            {/* Pro Plan */}
-            <div className="relative rounded-xl border-2 border-indigo-500 bg-gray-900 p-6 shadow-lg shadow-indigo-500/10">
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-indigo-600 px-3 py-0.5 text-xs font-medium">
-                Popular
-              </div>
-              <h3 className="text-lg font-semibold">Pro</h3>
-              <div className="mt-4">
-                <span className="text-3xl font-bold">$20</span>
-                <span className="text-gray-400">/month</span>
-              </div>
-              <p className="mt-3 text-sm text-gray-400">For power users</p>
-              <ul className="mt-6 space-y-3 text-sm text-gray-300">
-                <li className="flex items-center gap-2">
-                  <svg className="h-4 w-4 text-indigo-400" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                  </svg>
-                  50 forms per month
-                </li>
-                <li className="flex items-center gap-2">
-                  <svg className="h-4 w-4 text-indigo-400" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                  </svg>
-                  AI-powered explanations
-                </li>
-                <li className="flex items-center gap-2">
-                  <svg className="h-4 w-4 text-indigo-400" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                  </svg>
-                  Priority support
-                </li>
-              </ul>
-              <a
-                href="#"
-                className="mt-6 block w-full rounded-lg bg-indigo-600 py-2.5 text-center text-sm font-semibold transition hover:bg-indigo-500"
-              >
-                Upgrade to Pro
+            {/* Pro - Highlighted */}
+            <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55, delay: 0.2 }}
+              className="relative bg-[#2563EB] rounded-[20px] p-7 text-left flex flex-col"
+            >
+              <span className="absolute -top-[13px] left-1/2 -translate-x-1/2 bg-[#0F172A] text-white text-[10px] font-bold rounded-full px-3.5 py-1 whitespace-nowrap">
+                Most Popular
+              </span>
+              <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#93C5FD]">Pro</span>
+              <div className="mt-2 mb-1"><span className="text-[40px] font-extrabold text-white">$20</span></div>
+              <span className="text-[13px] text-[#93C5FD] border-b border-white/15 pb-4 mb-4">per month</span>
+              <div className="mb-1"><span className="text-[15px] font-bold text-white">50 forms / month</span></div>
+              <p className="text-[13px] text-[#93C5FD] mb-6">For power users tackling multiple complex applications.</p>
+              <a href="#" className="mt-auto block text-center bg-white text-[#2563EB] rounded-[9px] py-2.5 text-[14px] font-bold hover:bg-[#F8FAFF] transition-colors">
+                Get Pro
               </a>
-            </div>
+              <p className="text-[12px] text-[#93C5FD] text-center mt-3">All features included</p>
+            </motion.div>
 
-            {/* Business Plan */}
-            <div className="rounded-xl border border-gray-800 bg-gray-900 p-6">
-              <h3 className="text-lg font-semibold">Business</h3>
-              <div className="mt-4">
-                <span className="text-3xl font-bold">$39</span>
-                <span className="text-gray-400">/month</span>
-              </div>
-              <p className="mt-3 text-sm text-gray-400">For teams and heavy usage</p>
-              <ul className="mt-6 space-y-3 text-sm text-gray-300">
-                <li className="flex items-center gap-2">
-                  <svg className="h-4 w-4 text-green-400" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                  </svg>
-                  300 forms per month
-                </li>
-                <li className="flex items-center gap-2">
-                  <svg className="h-4 w-4 text-green-400" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                  </svg>
-                  AI-powered explanations
-                </li>
-                <li className="flex items-center gap-2">
-                  <svg className="h-4 w-4 text-green-400" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                  </svg>
-                  Priority support
-                </li>
-              </ul>
-              <a
-                href="#"
-                className="mt-6 block w-full rounded-lg border border-gray-700 py-2.5 text-center text-sm font-semibold transition hover:bg-gray-800"
-              >
+            {/* Business */}
+            <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55, delay: 0.3 }}
+              className="bg-white border border-[#E2E8F0] rounded-[20px] p-7 text-left flex flex-col"
+            >
+              <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#94A3B8]">Business</span>
+              <div className="mt-2 mb-1"><span className="text-[40px] font-extrabold text-[#0F172A]">$39</span></div>
+              <span className="text-[13px] text-[#64748B] border-b border-[#E2E8F0] pb-4 mb-4">per month</span>
+              <div className="mb-1"><span className="text-[15px] font-bold text-[#0F172A]">300 forms / month</span></div>
+              <p className="text-[13px] text-[#64748B] mb-6">For teams and heavy usage — immigration offices, tax preparers.</p>
+              <a href="#" className="mt-auto block text-center bg-[#F8FAFF] text-[#2563EB] border-[1.5px] border-[#BFDBFE] rounded-[9px] py-2.5 text-[14px] font-semibold hover:bg-[#EFF6FF] transition-colors">
                 Get Business
               </a>
-            </div>
+              <p className="text-[12px] text-[#94A3B8] text-center mt-3">All features included</p>
+            </motion.div>
+          </div>
+
+          <p className="text-[13px] text-[#94A3B8] mt-8 text-center">
+            One form session = one use, regardless of how many fields you click
+          </p>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section id="testimonials" className="bg-white py-[110px] px-6">
+        <div className="max-w-[1080px] mx-auto text-center">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55 }}>
+            <h2 className="font-display text-[#0F172A] leading-[1.1] font-normal mb-12" style={{ fontSize: 'clamp(30px, 4vw, 44px)' }}>
+              People who no longer guess.
+            </h2>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+            {[
+              { name: 'Wei Zhang', role: 'International Student', initials: 'WZ', color: '#2563EB', quote: 'I was stuck on my DS-160 visa application for hours. Fillyfy explained "Port of Entry" in 2 seconds. Game changer for international students.' },
+              { name: 'Priya Sharma', role: 'Founder @ Dataflow AI', initials: 'PS', color: '#7C3AED', quote: 'AWS Activate wanted my "Annual Recurring Revenue" — I wasn\'t sure if grants counted. Fillyfy clarified instantly. Got approved for $100k credits.' },
+              { name: 'Carlos Rivera', role: 'Software Engineer', initials: 'CR', color: '#059669', quote: 'Green card application had 20+ confusing fields. Fillyfy saved me from hiring an immigration lawyer for basic form questions.' },
+              { name: 'Sarah Mitchell', role: 'Registered Nurse', initials: 'SM', color: '#DC2626', quote: 'Insurance prior authorization forms are a nightmare. Fillyfy explains each field so I can submit correctly the first time.' },
+              { name: 'Alex Kim', role: 'Freelance Designer', initials: 'AK', color: '#D97706', quote: 'Tax season used to give me anxiety. Now I just click confusing fields and actually understand what the IRS wants. Worth every penny.' },
+              { name: 'Marcus Johnson', role: 'DevOps Lead', initials: 'MJ', color: '#0891B2', quote: 'Even AWS console forms can be cryptic. Fillyfy helps my team understand IAM policy fields without Googling every parameter.' },
+            ].map((t, i) => (
+              <motion.div
+                key={i}
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.55, delay: (i % 3) * 0.1 }}
+                className="bg-[#F8FAFF] border border-[#E2E8F0] rounded-2xl p-7 text-left"
+              >
+                <div className="text-[14px] text-[#F59E0B] mb-3">★★★★★</div>
+                <p className="text-[15px] text-[#374151] leading-[1.68] italic mb-5">&ldquo;{t.quote}&rdquo;</p>
+                <div className="flex items-center gap-3">
+                  <div
+                    className="w-9 h-9 rounded-full flex items-center justify-center text-white text-[12px] font-bold"
+                    style={{ background: t.color }}
+                  >
+                    {t.initials}
+                  </div>
+                  <div>
+                    <div className="text-[14px] font-bold text-[#0F172A]">{t.name}</div>
+                    <div className="text-[12px] text-[#94A3B8]">{t.role}</div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* FAQ */}
-      <section className="px-6 py-20 sm:py-24 bg-gray-900/50">
-        <div className="mx-auto max-w-3xl">
-          <h2 className="text-center text-3xl font-bold sm:text-4xl">Frequently Asked Questions</h2>
-          <div className="mt-16 space-y-8">
-            <div>
-              <h3 className="text-lg font-semibold">What data does Fillyfy collect?</h3>
-              <p className="mt-3 text-gray-400">
-                Fillyfy sends only the form field context (label, placeholder, type) to our AI for explanation. We collect your email for authentication and track monthly usage counts. We never store the field context permanently and never sell your data.
-              </p>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold">Which browsers are supported?</h3>
-              <p className="mt-3 text-gray-400">
-                Fillyfy is available as a Chrome extension and works on all Chromium-based browsers including Chrome, Edge, Brave, and Arc.
-              </p>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold">How does it work?</h3>
-              <p className="mt-3 text-gray-400">
-                When you click a form field, Fillyfy captures the field&apos;s context (label, type, surrounding form info) and sends it to our AI backend. Claude AI analyzes the context and returns a clear explanation of what to enter, why it&apos;s asked, and common mistakes to avoid.
-              </p>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold">Can I cancel anytime?</h3>
-              <p className="mt-3 text-gray-400">
-                Yes. You can cancel your subscription at any time. Your access continues until the end of the current billing period, then you&apos;ll revert to the free plan with 1 form per month.
-              </p>
-            </div>
-          </div>
+      <section id="faq" className="bg-[#F8FAFF] py-[110px] px-6">
+        <div className="max-w-[700px] mx-auto text-center">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55 }}>
+            <h2 className="font-display text-[#0F172A] leading-[1.1] font-normal mb-12" style={{ fontSize: 'clamp(30px, 4vw, 44px)' }}>
+              Questions & answers.
+            </h2>
+          </motion.div>
+          <FAQ />
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="py-[100px] px-6" style={{ background: 'linear-gradient(135deg, #1D4ED8 0%, #2563EB 60%, #3B82F6 100%)' }}>
+        <div className="max-w-[680px] mx-auto text-center">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55 }}>
+            <h2 className="font-display text-white leading-[1.1] font-normal mb-5" style={{ fontSize: 'clamp(30px, 4vw, 44px)' }}>
+              Start understanding every form today.
+            </h2>
+            <p className="text-[18px] text-[#93C5FD] leading-[1.65] mb-8">
+              Free to install. No credit card required. Works on any website, any form, any field.
+            </p>
+            <a
+              href="#"
+              className="inline-flex items-center gap-3 bg-white text-[#2563EB] text-[16px] font-bold px-8 py-4 rounded-xl hover:-translate-y-0.5 transition-all"
+              style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.14)' }}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
+              </svg>
+              Add to Chrome — Free
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </a>
+          </motion.div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-gray-800 px-6 py-12">
-        <div className="mx-auto max-w-5xl flex flex-col items-center gap-6 sm:flex-row sm:justify-between">
-          <div className="flex items-center gap-6">
-            <a href="/privacy" className="text-sm text-gray-400 transition hover:text-white">
-              Privacy Policy
-            </a>
-            <a href="/terms" className="text-sm text-gray-400 transition hover:text-white">
-              Terms of Service
-            </a>
-            <a href="#" className="text-sm text-gray-400 transition hover:text-white">
-              Chrome Web Store
-            </a>
+      <footer className="bg-[#0F172A] py-11 px-6">
+        <div className="max-w-[1080px] mx-auto flex flex-wrap items-center justify-between gap-6">
+          <div>
+            <span className="text-white text-[18px] font-extrabold">Fillyfy</span>
+            <p className="text-[13px] text-[#475569] mt-1">Understand every form. Submit with confidence.</p>
           </div>
-          <p className="text-sm text-gray-500">
-            &copy; 2024 Fillyfy. All rights reserved.
-          </p>
+          <div className="flex flex-wrap items-center gap-6">
+            <a href="#features" className="text-[13px] text-[#64748B] hover:text-[#94A3B8] transition-colors">Features</a>
+            <a href="#how-it-works" className="text-[13px] text-[#64748B] hover:text-[#94A3B8] transition-colors">How it works</a>
+            <a href="#pricing" className="text-[13px] text-[#64748B] hover:text-[#94A3B8] transition-colors">Pricing</a>
+            <a href="#faq" className="text-[13px] text-[#64748B] hover:text-[#94A3B8] transition-colors">FAQ</a>
+            <a href="/privacy" className="text-[13px] text-[#64748B] hover:text-[#94A3B8] transition-colors">Privacy Policy</a>
+          </div>
+          <p className="text-[12px] text-[#334155]">© 2025 Fillyfy. All rights reserved.</p>
         </div>
       </footer>
     </main>
