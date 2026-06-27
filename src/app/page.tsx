@@ -211,7 +211,7 @@ export default function Home() {
               </div>
               <h3 className="text-lg font-semibold">Pro</h3>
               <div className="mt-4">
-                <span className="text-3xl font-bold">$25</span>
+                <span className="text-3xl font-bold">$20</span>
                 <span className="text-gray-400">/month</span>
               </div>
               <p className="mt-3 text-sm text-gray-400">For power users</p>
@@ -247,7 +247,7 @@ export default function Home() {
             <div className="rounded-xl border border-gray-800 bg-gray-900 p-6">
               <h3 className="text-lg font-semibold">Business</h3>
               <div className="mt-4">
-                <span className="text-3xl font-bold">$49</span>
+                <span className="text-3xl font-bold">$39</span>
                 <span className="text-gray-400">/month</span>
               </div>
               <p className="mt-3 text-sm text-gray-400">For teams and heavy usage</p>

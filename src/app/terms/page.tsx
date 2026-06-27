@@ -33,8 +33,8 @@ export default function TermsPage() {
             </p>
             <ul className="mt-4 list-disc pl-6 space-y-2">
               <li>Starter: $10/month — 15 forms per month</li>
-              <li>Pro: $25/month — 50 forms per month</li>
-              <li>Business: $49/month — 300 forms per month</li>
+              <li>Pro: $20/month — 50 forms per month</li>
+              <li>Business: $39/month — 300 forms per month</li>
             </ul>
             <p className="mt-3">
               Your subscription renews automatically each month until cancelled. You may cancel your subscription at any time through your account settings.
