@@ -18,8 +18,19 @@ function SectionLabel({ children, color = 'blue' }: { children: React.ReactNode;
   const s = styles[color] || styles.blue;
   return (
     <span
-      className="inline-block text-[11px] font-bold uppercase tracking-[0.1em] px-3.5 py-1.5 rounded-full mb-4"
-      style={{ background: s.bg, border: `1px solid ${s.border}`, color: s.text }}
+      style={{
+        display: 'inline-block',
+        fontSize: '11px',
+        fontWeight: 700,
+        letterSpacing: '0.1em',
+        textTransform: 'uppercase' as const,
+        padding: '5px 14px',
+        borderRadius: '100px',
+        marginBottom: '18px',
+        background: s.bg,
+        border: `1px solid ${s.border}`,
+        color: s.text,
+      }}
     >
       {children}
     </span>
@@ -28,27 +39,49 @@ function SectionLabel({ children, color = 'blue' }: { children: React.ReactNode;
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-white overflow-x-hidden">
+    <main style={{ minHeight: '100vh', background: '#fff', overflowX: 'hidden' }}>
       <Nav />
 
       {/* Hero Section */}
       <section
         id="hero"
-        className="min-h-screen flex items-center pt-[88px] pb-[60px] px-6"
-        style={{ background: 'radial-gradient(ellipse 70% 60% at 72% 5%, rgba(37,99,235,0.07) 0%, transparent 65%), #fff' }}
+        style={{
+          minHeight: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          background: 'radial-gradient(ellipse 70% 60% at 72% 5%, rgba(37,99,235,0.07) 0%, transparent 65%), #fff',
+          padding: '88px 24px 60px',
+        }}
       >
-        <div className="max-w-[1160px] mx-auto w-full flex flex-wrap items-center gap-14">
+        <div style={{
+          maxWidth: '1160px',
+          margin: '0 auto',
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '56px',
+          flexWrap: 'wrap' as const,
+        }}>
           {/* Left Column */}
-          <div className="flex-1 min-w-[320px] max-w-[540px]">
+          <div style={{ flex: 1, minWidth: '320px', maxWidth: '540px' }}>
             <motion.div
               variants={fadeUp}
               initial="hidden"
               animate="visible"
               transition={{ duration: 0.55, delay: 0 }}
-              className="inline-flex items-center gap-2 bg-[#EFF6FF] border border-[#BFDBFE] rounded-full px-3.5 py-[5px] mb-6"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                background: '#EFF6FF',
+                border: '1px solid #BFDBFE',
+                borderRadius: '100px',
+                padding: '5px 14px',
+                marginBottom: '26px',
+              }}
             >
-              <span className="w-[7px] h-[7px] rounded-full bg-[#2563EB]" style={{ animation: 'pulse-dot 2s ease-in-out infinite' }} />
-              <span className="text-[13px] font-semibold text-[#2563EB]">Now available — free to install</span>
+              <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#2563EB', animation: 'pulse-dot 2s ease-in-out infinite', flexShrink: 0 }} />
+              <span style={{ fontSize: '13px', fontWeight: 600, color: '#2563EB' }}>Now available — free to install</span>
             </motion.div>
 
             <motion.h1
@@ -56,8 +89,14 @@ export default function Home() {
               initial="hidden"
               animate="visible"
               transition={{ duration: 0.55, delay: 0.1 }}
-              className="font-display text-[#0F172A] leading-[1.06] tracking-[-0.02em] font-normal mb-6"
-              style={{ fontSize: 'clamp(40px, 5vw, 60px)' }}
+              className="font-display"
+              style={{
+                fontSize: 'clamp(40px, 5vw, 60px)',
+                lineHeight: 1.06,
+                letterSpacing: '-0.02em',
+                color: '#0F172A',
+                marginBottom: '22px',
+              }}
             >
               Never wonder what a form is asking again.
             </motion.h1>
@@ -67,7 +106,13 @@ export default function Home() {
               initial="hidden"
               animate="visible"
               transition={{ duration: 0.55, delay: 0.2 }}
-              className="text-[17px] leading-[1.72] text-[#64748B] max-w-[480px] mb-8"
+              style={{
+                fontSize: '17px',
+                lineHeight: 1.72,
+                color: '#64748B',
+                marginBottom: '36px',
+                maxWidth: '480px',
+              }}
             >
               Click any form field. Fillyfy instantly explains what it means, what to enter, common mistakes, and what documents you may need — without leaving the page.
             </motion.p>
@@ -77,26 +122,46 @@ export default function Home() {
               initial="hidden"
               animate="visible"
               transition={{ duration: 0.55, delay: 0.3 }}
-              className="flex flex-wrap gap-3 mb-8"
+              style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' as const, marginBottom: '36px' }}
             >
               <a
                 href="#"
-                className="inline-flex items-center gap-2 bg-[#2563EB] text-white text-[15px] font-semibold px-6 py-[13px] rounded-[10px] hover:bg-[#1D4ED8] hover:-translate-y-px transition-all"
-                style={{ boxShadow: '0 2px 10px rgba(37,99,235,0.28)' }}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  background: '#2563EB',
+                  color: 'white',
+                  fontSize: '15px',
+                  fontWeight: 600,
+                  padding: '13px 24px',
+                  borderRadius: '10px',
+                  textDecoration: 'none',
+                  boxShadow: '0 2px 10px rgba(37,99,235,0.28)',
+                  transition: 'all 0.2s',
+                }}
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
-                </svg>
+                <svg width="17" height="17" viewBox="0 0 17 17" fill="none"><circle cx="8.5" cy="8.5" r="8.5" fill="rgba(255,255,255,0.18)"/><circle cx="8.5" cy="8.5" r="3.5" fill="white"/></svg>
                 Add to Chrome — Free
               </a>
               <a
-                href="#"
-                className="inline-flex items-center gap-2 bg-white border-[1.5px] border-[#E2E8F0] text-[#374151] text-[15px] font-semibold px-5 py-[13px] rounded-[10px] hover:border-[#CBD5E1] hover:bg-[#F8FAFF] transition-all"
+                href="#demo"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  color: '#374151',
+                  fontSize: '15px',
+                  fontWeight: 600,
+                  padding: '13px 20px',
+                  borderRadius: '10px',
+                  textDecoration: 'none',
+                  border: '1.5px solid #E2E8F0',
+                  background: 'white',
+                  transition: 'all 0.2s',
+                }}
               >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="12" cy="12" r="10" />
-                  <polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none" />
-                </svg>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="#374151" strokeWidth="1.5"/><path d="M6.5 5.8l4 2.2-4 2.2V5.8z" fill="#374151"/></svg>
                 Watch 30s demo
               </a>
             </motion.div>
@@ -106,36 +171,36 @@ export default function Home() {
               initial="hidden"
               animate="visible"
               transition={{ duration: 0.55, delay: 0.4 }}
-              className="flex flex-wrap items-center gap-4 text-[12px] font-medium text-[#64748B]"
+              style={{ display: 'flex', alignItems: 'center', gap: '18px', flexWrap: 'wrap' as const }}
             >
-              <span className="flex items-center gap-1.5">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="#2563EB"><circle cx="12" cy="12" r="10" /></svg>
-                Chrome Web Store
-              </span>
-              <span className="text-[#CBD5E1]">·</span>
-              <span className="flex items-center gap-1.5">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="#F59E0B"><rect x="4" y="4" width="16" height="16" rx="3" /></svg>
-                AWS Bedrock
-              </span>
-              <span className="text-[#CBD5E1]">·</span>
-              <span className="flex items-center gap-1.5">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="#D97706"><circle cx="12" cy="12" r="10" /></svg>
-                Claude AI
-              </span>
-              <span className="text-[#CBD5E1]">·</span>
-              <span className="flex items-center gap-1.5">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="#16A34A"><path d="M12 2L3 7v10l9 5 9-5V7l-9-5z" /></svg>
-                Privacy First
-              </span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <svg width="15" height="15" viewBox="0 0 15 15"><circle cx="7.5" cy="7.5" r="7.5" fill="#4285F4"/></svg>
+                <span style={{ fontSize: '12px', fontWeight: 500, color: '#64748B' }}>Chrome Web Store</span>
+              </div>
+              <span style={{ color: '#CBD5E1', fontSize: '12px' }}>·</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <svg width="15" height="15" viewBox="0 0 15 15"><rect width="15" height="15" rx="3" fill="#FF9900"/></svg>
+                <span style={{ fontSize: '12px', fontWeight: 500, color: '#64748B' }}>AWS Bedrock</span>
+              </div>
+              <span style={{ color: '#CBD5E1', fontSize: '12px' }}>·</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <svg width="15" height="15" viewBox="0 0 15 15"><rect width="15" height="15" rx="7.5" fill="#D97B4F"/></svg>
+                <span style={{ fontSize: '12px', fontWeight: 500, color: '#64748B' }}>Claude AI</span>
+              </div>
+              <span style={{ color: '#CBD5E1', fontSize: '12px' }}>·</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <svg width="15" height="15" viewBox="0 0 15 15"><path d="M7.5 1L1 4.5v4.5C1 12.5 4 15 7.5 15S14 12.5 14 9V4.5L7.5 1z" fill="none" stroke="#16A34A" strokeWidth="1.3"/><path d="M5 8l2 2 3.5-3.5" stroke="#16A34A" strokeWidth="1.3" strokeLinecap="round"/></svg>
+                <span style={{ fontSize: '12px', fontWeight: 500, color: '#64748B' }}>Privacy First</span>
+              </div>
             </motion.div>
           </div>
 
           {/* Right Column - Demo */}
-          <div className="flex-1 min-w-[320px] max-w-[580px] lg:min-w-[460px]">
+          <div id="demo" style={{ flex: 1, minWidth: '460px', maxWidth: '580px' }}>
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
+              transition={{ duration: 0.7, delay: 0.25 }}
             >
               <HeroDemo />
             </motion.div>
@@ -144,45 +209,47 @@ export default function Home() {
       </section>
 
       {/* Trust Bar */}
-      <section className="bg-[#F8FAFF] border-t border-b border-[#EFF6FF] py-7 px-6">
-        <p className="text-center text-[11px] font-bold uppercase tracking-[0.1em] text-[#94A3B8] mb-5">
-          Trusted infrastructure — built for privacy and scale
-        </p>
-        <div className="flex justify-center flex-wrap gap-11 opacity-60">
-          {[
-            { icon: '🔵', label: 'Chrome Web Store' },
-            { icon: '🟠', label: 'AWS Bedrock' },
-            { icon: '🟤', label: 'Claude AI' },
-            { icon: '🟣', label: 'Clerk Auth' },
-            { icon: '🟢', label: 'Privacy First' },
-            { icon: '🔒', label: 'E2E Encrypted' },
-          ].map((item, i) => (
-            <div key={i} className="flex items-center gap-2 text-[14px] font-semibold text-[#1E293B]">
-              <span>{item.icon}</span>
-              <span>{item.label}</span>
-            </div>
-          ))}
+      <section style={{ padding: '28px 24px', background: '#F8FAFF', borderTop: '1px solid #EFF6FF', borderBottom: '1px solid #EFF6FF' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+          <p style={{ textAlign: 'center', fontSize: '11px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#94A3B8', marginBottom: '22px' }}>
+            Trusted infrastructure — built for privacy and scale
+          </p>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '44px', flexWrap: 'wrap' as const }}>
+            {[
+              { label: 'Chrome Web Store', icon: <svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="9" fill="#4285F4"/><circle cx="9" cy="9" r="3.5" fill="white"/></svg> },
+              { label: 'AWS Bedrock', icon: <svg width="30" height="18" viewBox="0 0 30 18"><rect width="30" height="18" rx="3" fill="#FF9900"/><text x="3" y="13" fontFamily="Arial" fontSize="9" fontWeight="800" fill="white">AWS</text></svg> },
+              { label: 'Claude AI', icon: <svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="9" fill="#D97B4F"/></svg> },
+              { label: 'Clerk Auth', icon: <svg width="18" height="18" viewBox="0 0 18 18"><rect width="18" height="18" rx="4" fill="#6C47FF"/></svg> },
+              { label: 'Privacy First', icon: <svg width="18" height="18" viewBox="0 0 18 18"><path d="M9 1.5L2 5v5.5C2 14.4 5.2 17.3 9 18c3.8-.7 7-3.6 7-7.5V5L9 1.5z" fill="none" stroke="#16A34A" strokeWidth="1.5"/><path d="M6 9.5l2.5 2.5 4-4" stroke="#16A34A" strokeWidth="1.5" strokeLinecap="round"/></svg> },
+              { label: 'E2E Encrypted', icon: <svg width="18" height="18" viewBox="0 0 18 18"><rect x="3" y="8" width="12" height="9" rx="2" stroke="#64748B" strokeWidth="1.5" fill="none"/><path d="M6 8V6.5a3 3 0 016 0V8" stroke="#64748B" strokeWidth="1.5" strokeLinecap="round" fill="none"/></svg> },
+            ].map((item, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px', opacity: 0.6 }}>
+                {item.icon}
+                <span style={{ fontSize: '14px', fontWeight: 600, color: '#1E293B' }}>{item.label}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Problem Section */}
-      <section id="problem" className="bg-white py-[110px] px-6">
-        <div className="max-w-[1080px] mx-auto text-center">
-          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55 }}>
+      <section id="problem" style={{ padding: '110px 24px', background: 'white' }}>
+        <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55 }} style={{ textAlign: 'center', marginBottom: '60px' }}>
             <SectionLabel color="red">The problem</SectionLabel>
-            <h2 className="font-display text-[#0F172A] leading-[1.1] font-normal mt-4 mb-4" style={{ fontSize: 'clamp(30px, 4vw, 44px)' }}>
-              You&apos;re in the middle of something important. And you&apos;re stuck.
+            <h2 className="font-display" style={{ fontSize: 'clamp(30px, 4vw, 46px)', lineHeight: 1.1, color: '#0F172A', marginBottom: '18px' }}>
+              You&apos;re in the middle of something important.<br/>And you&apos;re stuck.
             </h2>
-            <p className="text-[17px] text-[#64748B] max-w-[580px] mx-auto mb-12">
-              Government forms. Visa applications. Tax filings. The fields are confusing, the stakes are high, and Googling doesn&apos;t always help.
+            <p style={{ fontSize: '17px', color: '#64748B', maxWidth: '580px', margin: '0 auto', lineHeight: 1.7 }}>
+              A visa application. A bank account. A startup grant. You reach a field you&apos;ve never seen before — and the guessing begins.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-12">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginBottom: '56px' }}>
             {[
-              { emoji: '😕', title: 'Confusing field names', body: '"Alien Registration Number"? "Prior Year AGI"? These aren\'t everyday terms — but they expect you to know them.', bg: '#FEF2F2', border: '#FECACA', titleColor: '#991B1B', bodyColor: '#7F1D1D' },
-              { emoji: '🔍', title: 'Five tabs. No clear answer.', body: 'You open Google, Reddit, official docs... 15 minutes later you\'re still not sure if you found the right answer.', bg: '#FFFBEB', border: '#FDE68A', titleColor: '#92400E', bodyColor: '#78350F' },
-              { emoji: '🤞', title: 'You guess and hope.', body: 'Eventually you just enter something and pray it doesn\'t delay your application or trigger a rejection.', bg: '#F0FDF4', border: '#BBF7D0', titleColor: '#166534', bodyColor: '#14532D' },
+              { emoji: '😕', title: 'Confusing field names', body: '"Alien Registration Number." "Port of Entry." "Prior Year AGI." These terms appear with no explanation, no context, no guidance.', bg: '#FEF2F2', border: '#FECACA', titleColor: '#991B1B', bodyColor: '#7F1D1D' },
+              { emoji: '🔍', title: 'Five tabs. No clear answer.', body: 'You Google it. You paste it into ChatGPT. Four tabs open. None of the answers clearly apply to your specific form or situation.', bg: '#FFFBEB', border: '#FDE68A', titleColor: '#92400E', bodyColor: '#78350F' },
+              { emoji: '🤞', title: 'You guess and hope', body: 'You submit unsure if you got it right. A mistake could mean delays, rejections, or starting the entire process over.', bg: '#F0FDF4', border: '#BBF7D0', titleColor: '#166534', bodyColor: '#14532D' },
             ].map((card, i) => (
               <motion.div
                 key={i}
@@ -191,39 +258,38 @@ export default function Home() {
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.1 }}
                 transition={{ duration: 0.55, delay: i * 0.1 }}
-                className="rounded-2xl p-7 text-left"
-                style={{ background: card.bg, border: `1px solid ${card.border}` }}
+                style={{ background: card.bg, border: `1px solid ${card.border}`, borderRadius: '16px', padding: '28px' }}
               >
-                <div className="text-2xl mb-3">{card.emoji}</div>
-                <h3 className="text-[16px] font-bold mb-2" style={{ color: card.titleColor }}>{card.title}</h3>
-                <p className="text-[14px] leading-[1.65]" style={{ color: card.bodyColor }}>{card.body}</p>
+                <div style={{ fontSize: '28px', marginBottom: '14px' }}>{card.emoji}</div>
+                <h3 style={{ fontSize: '16px', fontWeight: 700, color: card.titleColor, marginBottom: '10px' }}>{card.title}</h3>
+                <p style={{ fontSize: '14px', color: card.bodyColor, lineHeight: 1.65 }}>{card.body}</p>
               </motion.div>
             ))}
           </div>
 
-          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55 }}>
-            <span className="inline-block bg-[#EFF6FF] px-9 py-[15px] rounded-full text-[16px] font-semibold text-[#2563EB]">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55 }} style={{ textAlign: 'center' }}>
+            <div style={{ display: 'inline-block', padding: '15px 36px', background: '#EFF6FF', borderRadius: '100px', fontSize: '16px', fontWeight: 600, color: '#2563EB' }}>
               There&apos;s a better way →
-            </span>
+            </div>
           </motion.div>
         </div>
       </section>
 
       {/* How It Works */}
-      <section id="how-it-works" className="bg-[#F8FAFF] py-[110px] px-6">
-        <div className="max-w-[1080px] mx-auto text-center">
-          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55 }}>
+      <section id="how-it-works" style={{ padding: '110px 24px', background: '#F8FAFF' }}>
+        <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55 }} style={{ textAlign: 'center', marginBottom: '72px' }}>
             <SectionLabel>How it works</SectionLabel>
-            <h2 className="font-display text-[#0F172A] leading-[1.1] font-normal mt-4 mb-12" style={{ fontSize: 'clamp(30px, 4vw, 44px)' }}>
+            <h2 className="font-display" style={{ fontSize: 'clamp(30px, 4vw, 44px)', lineHeight: 1.1, color: '#0F172A' }}>
               Three steps. No learning curve.
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '40px' }}>
             {[
-              { emoji: '🌐', step: 'Step 1', title: 'Open any form', body: 'Navigate to any website with a form — government, banking, startup applications, anything.' },
-              { emoji: '👆', step: 'Step 2', title: 'Click a confusing field', body: 'Click on any form field you don\'t understand. That\'s it — one click.' },
-              { emoji: '✨', step: 'Step 3', title: 'Understand instantly', body: 'A sidebar appears with a clear explanation: what it means, what to enter, and mistakes to avoid.' },
+              { emoji: '🌐', step: 'Step 01', title: 'Open any form', body: 'Navigate to any website — government, banking, startup programs. Fillyfy detects the form and quietly activates.' },
+              { emoji: '👆', step: 'Step 02', title: 'Click a confusing field', body: 'See something unfamiliar? Just click it. No commands, no searching, no copy-paste. One click is the entire interaction.' },
+              { emoji: '✨', step: 'Step 03', title: 'Understand instantly', body: 'A sidebar opens beside the form. What it means, what to enter, common mistakes, documents needed. Fill in with confidence.' },
             ].map((item, i) => (
               <motion.div
                 key={i}
@@ -232,17 +298,14 @@ export default function Home() {
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.1 }}
                 transition={{ duration: 0.55, delay: i * 0.1 }}
-                className="flex flex-col items-center text-center"
+                style={{ textAlign: 'center' }}
               >
-                <div
-                  className="w-14 h-14 rounded-2xl bg-[#2563EB] flex items-center justify-center text-[22px] mb-4"
-                  style={{ boxShadow: '0 4px 18px rgba(37,99,235,0.26)' }}
-                >
+                <div style={{ width: '56px', height: '56px', background: '#2563EB', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 18px', fontSize: '22px', boxShadow: '0 4px 18px rgba(37,99,235,0.26)' }}>
                   {item.emoji}
                 </div>
-                <span className="text-[11px] font-bold uppercase tracking-[0.09em] text-[#94A3B8] mb-2">{item.step}</span>
-                <h3 className="text-[19px] font-bold text-[#0F172A] mb-2">{item.title}</h3>
-                <p className="text-[15px] text-[#64748B] leading-[1.68]">{item.body}</p>
+                <div style={{ fontSize: '11px', fontWeight: 700, color: '#94A3B8', letterSpacing: '0.09em', textTransform: 'uppercase', marginBottom: '10px' }}>{item.step}</div>
+                <h3 style={{ fontSize: '19px', fontWeight: 700, color: '#0F172A', marginBottom: '12px' }}>{item.title}</h3>
+                <p style={{ fontSize: '15px', color: '#64748B', lineHeight: 1.68 }}>{item.body}</p>
               </motion.div>
             ))}
           </div>
@@ -250,29 +313,29 @@ export default function Home() {
       </section>
 
       {/* Use Cases */}
-      <section id="examples" className="bg-white py-[110px] px-6">
-        <div className="max-w-[1080px] mx-auto text-center">
-          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55 }}>
-            <SectionLabel>Use cases</SectionLabel>
-            <h2 className="font-display text-[#0F172A] leading-[1.1] font-normal mt-4 mb-4" style={{ fontSize: 'clamp(30px, 4vw, 44px)' }}>
+      <section id="examples" style={{ padding: '110px 24px', background: 'white' }}>
+        <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55 }} style={{ textAlign: 'center', marginBottom: '56px' }}>
+            <SectionLabel>Works everywhere</SectionLabel>
+            <h2 className="font-display" style={{ fontSize: 'clamp(30px, 4vw, 44px)', lineHeight: 1.1, color: '#0F172A', marginBottom: '14px' }}>
               Any form. Any website.
             </h2>
-            <p className="text-[17px] text-[#64748B] max-w-[580px] mx-auto mb-12">
-              From immigration to taxes to startup applications — Fillyfy works wherever forms are confusing.
+            <p style={{ fontSize: '17px', color: '#64748B', maxWidth: '520px', margin: '0 auto', lineHeight: 1.7 }}>
+              Fillyfy is intentionally universal. Here&apos;s where people use it most.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '14px' }}>
             {[
-              { emoji: '🏛️', title: 'Government', desc: 'USCIS, SSA, state agencies, DMV, and federal forms.' },
-              { emoji: '🌍', title: 'Visa & Immigration', desc: 'DS-160, I-485, travel authorizations, and consulate forms.' },
-              { emoji: '🚀', title: 'Startup Funding', desc: 'AWS Activate, YC, grants, and accelerator applications.' },
-              { emoji: '🏦', title: 'Banking', desc: 'Account applications, loan forms, and KYC verification.' },
-              { emoji: '📋', title: 'Tax', desc: 'IRS forms, state returns, estimated payments, and W-4s.' },
-              { emoji: '🎓', title: 'University', desc: 'FAFSA, admissions portals, scholarship applications.' },
-              { emoji: '🏥', title: 'Healthcare', desc: 'Insurance enrollment, claims, prior authorizations.' },
-              { emoji: '☁️', title: 'Cloud & Enterprise', desc: 'AWS, Azure, GCP console forms and configurations.' },
-              { emoji: '🏪', title: 'Business Registration', desc: 'LLC filings, EIN applications, state registrations.' },
+              { emoji: '🏛️', title: 'Government Applications', desc: 'USCIS, SSA, IRS, and federal portals — decoded field by field.' },
+              { emoji: '🌍', title: 'Visa & Immigration', desc: 'Know exactly what each consular field requires before you submit.' },
+              { emoji: '🚀', title: 'Startup Funding', desc: 'AWS Activate, accelerators, grants — apply with full confidence.' },
+              { emoji: '🏦', title: 'Banking & Finance', desc: 'Open accounts and complete financial applications accurately.' },
+              { emoji: '📋', title: 'Tax Filing', desc: 'Decode IRS terminology. File accurately every time.' },
+              { emoji: '🎓', title: 'University Admissions', desc: 'Navigate FAFSA, scholarship, and admissions forms.' },
+              { emoji: '🏥', title: 'Healthcare', desc: 'Insurance claims, patient intake, medical billing — clarified.' },
+              { emoji: '☁️', title: 'Cloud & Enterprise', desc: 'AWS, GCP, Azure consoles and enterprise admin portals.' },
+              { emoji: '🏪', title: 'Business Registration', desc: 'Start your business right — from the very first form field.' },
             ].map((card, i) => (
               <motion.div
                 key={i}
@@ -281,11 +344,11 @@ export default function Home() {
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.1 }}
                 transition={{ duration: 0.55, delay: (i % 3) * 0.05 }}
-                className="bg-[#F8FAFF] border border-[#E2E8F0] rounded-xl p-[22px] text-left hover:bg-[#EFF6FF] hover:border-[#BFDBFE] hover:-translate-y-0.5 transition-all duration-200 cursor-default"
+                style={{ background: '#F8FAFF', border: '1px solid #E2E8F0', borderRadius: '12px', padding: '22px', transition: 'all 0.2s' }}
               >
-                <div className="text-2xl mb-2">{card.emoji}</div>
-                <h3 className="text-[14px] font-bold text-[#0F172A] mb-1">{card.title}</h3>
-                <p className="text-[13px] text-[#64748B] leading-[1.5]">{card.desc}</p>
+                <div style={{ fontSize: '24px', marginBottom: '10px' }}>{card.emoji}</div>
+                <div style={{ fontSize: '14px', fontWeight: 700, color: '#0F172A', marginBottom: '5px' }}>{card.title}</div>
+                <div style={{ fontSize: '13px', color: '#64748B', lineHeight: 1.5 }}>{card.desc}</div>
               </motion.div>
             ))}
           </div>
@@ -293,23 +356,23 @@ export default function Home() {
       </section>
 
       {/* Features */}
-      <section id="features" className="bg-[#F8FAFF] py-[110px] px-6">
-        <div className="max-w-[1080px] mx-auto text-center">
-          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55 }}>
+      <section id="features" style={{ padding: '110px 24px', background: '#F8FAFF' }}>
+        <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55 }} style={{ textAlign: 'center', marginBottom: '56px' }}>
             <SectionLabel>Features</SectionLabel>
-            <h2 className="font-display text-[#0F172A] leading-[1.1] font-normal mt-4 mb-12" style={{ fontSize: 'clamp(30px, 4vw, 44px)' }}>
+            <h2 className="font-display" style={{ fontSize: 'clamp(30px, 4vw, 44px)', lineHeight: 1.1, color: '#0F172A' }}>
               Everything you need. Nothing you don&apos;t.
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
             {[
-              { emoji: '💡', title: 'Instant Field Explanations', body: 'Click any form field and get a plain-language explanation of what it\'s asking, in context.' },
-              { emoji: '📄', title: 'Document Guidance', body: 'Know exactly which documents you need and where to find the information being requested.' },
-              { emoji: '🧠', title: 'Context-Aware Analysis', body: 'AI understands the form type, your field, and surrounding context for accurate explanations.' },
-              { emoji: '🛡️', title: 'Mistake Prevention', body: 'See common mistakes others make on each field so you can avoid delays and rejections.' },
-              { emoji: '🌐', title: 'Works Everywhere', body: 'Government sites, banking portals, startup forms — works on any website with form fields.' },
-              { emoji: '🔒', title: 'Privacy by Design', body: 'No data stored, no training on your info, encrypted in transit. Your privacy comes first.' },
+              { emoji: '💡', title: 'Instant Field Explanations', body: 'Click any field. Get a plain-language explanation in seconds — without leaving the page.' },
+              { emoji: '📄', title: 'Document Guidance', body: 'Know which documents you\'ll need before you get stuck. No surprises, no backtracking mid-application.' },
+              { emoji: '🧠', title: 'Context-Aware Analysis', body: 'Reads full page context — not just the label — so explanations are accurate and specific to the form you\'re on.' },
+              { emoji: '🛡️', title: 'Mistake Prevention', body: 'Common errors surfaced before you make them. Catch problems before they cause delays or rejections.' },
+              { emoji: '🌐', title: 'Works Everywhere', body: 'Government, banking, tax, visa, cloud platforms, enterprise software. Any form field. Any website.' },
+              { emoji: '🔒', title: 'Privacy by Design', body: 'Only field metadata is sent — label, placeholder, context. Your actual answers stay on your screen. Always.' },
             ].map((card, i) => (
               <motion.div
                 key={i}
@@ -318,13 +381,13 @@ export default function Home() {
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.1 }}
                 transition={{ duration: 0.55, delay: (i % 3) * 0.1 }}
-                className="bg-white border border-[#E2E8F0] rounded-2xl p-7 text-left hover:border-[#BFDBFE] hover:shadow-[0_4px_24px_rgba(37,99,235,0.08)] transition-all duration-200"
+                style={{ background: 'white', border: '1px solid #E2E8F0', borderRadius: '16px', padding: '28px', transition: 'all 0.2s' }}
               >
-                <div className="w-11 h-11 bg-[#EFF6FF] rounded-xl flex items-center justify-center text-[20px] mb-4">
+                <div style={{ width: '44px', height: '44px', background: '#EFF6FF', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', marginBottom: '16px' }}>
                   {card.emoji}
                 </div>
-                <h3 className="text-[16px] font-bold text-[#0F172A] mb-2">{card.title}</h3>
-                <p className="text-[14px] text-[#64748B] leading-[1.65]">{card.body}</p>
+                <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#0F172A', marginBottom: '8px' }}>{card.title}</h3>
+                <p style={{ fontSize: '14px', color: '#64748B', lineHeight: 1.65 }}>{card.body}</p>
               </motion.div>
             ))}
           </div>
@@ -332,35 +395,33 @@ export default function Home() {
       </section>
 
       {/* Security */}
-      <section id="security" className="bg-white py-20 px-6">
-        <div className="max-w-[880px] mx-auto">
+      <section id="security" style={{ padding: '80px 24px', background: 'white' }}>
+        <div style={{ maxWidth: '880px', margin: '0 auto' }}>
           <motion.div
             variants={fadeUp}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.55 }}
-            className="rounded-3xl p-14 text-center"
-            style={{ background: 'linear-gradient(135deg, #EFF6FF 0%, #F0FDF4 100%)', border: '1px solid #BFDBFE' }}
+            style={{ background: 'linear-gradient(135deg, #EFF6FF 0%, #F0FDF4 100%)', border: '1px solid #BFDBFE', borderRadius: '24px', padding: '56px 60px', textAlign: 'center' }}
           >
-            <div className="text-[40px] mb-4">🔐</div>
-            <h2 className="font-display text-[#0F172A] leading-[1.1] font-normal mb-4" style={{ fontSize: 'clamp(30px, 4vw, 44px)' }}>
+            <div style={{ fontSize: '40px', marginBottom: '18px' }}>🔐</div>
+            <h2 className="font-display" style={{ fontSize: 'clamp(26px, 3.5vw, 38px)', color: '#0F172A', marginBottom: '14px' }}>
               Your data never leaves the field.
             </h2>
-            <p className="text-[17px] text-[#64748B] max-w-[520px] mx-auto mb-8">
-              Fillyfy processes field context in real-time and discards it immediately. No storage, no training, no data collection.
+            <p style={{ fontSize: '17px', color: '#64748B', maxWidth: '520px', margin: '0 auto 40px', lineHeight: 1.7 }}>
+              Fillyfy never reads, stores, or transmits what you type. Only the field&apos;s label, placeholder, and surrounding page context are analyzed — never your actual answers.
             </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', textAlign: 'left' }}>
               {[
-                { emoji: '🚫', title: 'No personal data', desc: 'Only field labels and context are processed — never your input.' },
-                { emoji: '🔒', title: 'Encrypted in transit', desc: 'All data is encrypted using TLS. Nothing stored at rest.' },
-                { emoji: '☁️', title: 'AWS Bedrock', desc: 'Enterprise-grade AI infrastructure with SOC 2 compliance.' },
+                { emoji: '🚫', title: 'No personal data', desc: 'Your form answers are never read or transmitted. Ever.' },
+                { emoji: '🔒', title: 'Encrypted in transit', desc: 'All communication uses enterprise-grade TLS encryption.' },
+                { emoji: '☁️', title: 'AWS Bedrock', desc: 'Enterprise AI infrastructure with strict privacy and compliance standards.' },
               ].map((item, i) => (
-                <div key={i} className="bg-white rounded-xl p-5 text-center">
-                  <div className="text-xl mb-2">{item.emoji}</div>
-                  <h3 className="text-[14px] font-bold text-[#0F172A] mb-1">{item.title}</h3>
-                  <p className="text-[13px] text-[#64748B]">{item.desc}</p>
+                <div key={i} style={{ background: 'white', borderRadius: '12px', padding: '20px', border: '1px solid #E2E8F0' }}>
+                  <div style={{ fontSize: '18px', marginBottom: '8px' }}>{item.emoji}</div>
+                  <div style={{ fontSize: '13px', fontWeight: 700, color: '#0F172A', marginBottom: '4px' }}>{item.title}</div>
+                  <div style={{ fontSize: '12px', color: '#64748B', lineHeight: 1.5 }}>{item.desc}</div>
                 </div>
               ))}
             </div>
@@ -369,106 +430,86 @@ export default function Home() {
       </section>
 
       {/* Pricing */}
-      <section id="pricing" className="bg-[#F8FAFF] py-[110px] px-6">
-        <div className="max-w-[1080px] mx-auto text-center">
-          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55 }}>
+      <section id="pricing" style={{ padding: '110px 24px', background: '#F8FAFF' }}>
+        <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55 }} style={{ textAlign: 'center', marginBottom: '56px' }}>
             <SectionLabel>Pricing</SectionLabel>
-            <h2 className="font-display text-[#0F172A] leading-[1.1] font-normal mt-4 mb-4" style={{ fontSize: 'clamp(30px, 4vw, 44px)' }}>
+            <h2 className="font-display" style={{ fontSize: 'clamp(30px, 4vw, 44px)', lineHeight: 1.1, color: '#0F172A', marginBottom: '14px' }}>
               Simple, honest pricing.
             </h2>
-            <p className="text-[17px] text-[#64748B] max-w-[580px] mx-auto mb-12">
-              Every plan includes every feature. Only usage limits differ.
-            </p>
+            <p style={{ fontSize: '17px', color: '#64748B' }}>Every plan includes every feature. Only usage limits differ.</p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[18px]">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '18px' }}>
             {/* Free */}
-            <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55, delay: 0 }}
-              className="bg-white border border-[#E2E8F0] rounded-[20px] p-7 text-left flex flex-col"
-            >
-              <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#94A3B8]">Free</span>
-              <div className="mt-2 mb-1"><span className="text-[40px] font-extrabold text-[#0F172A]">$0</span></div>
-              <span className="text-[13px] text-[#64748B] border-b border-[#E2E8F0] pb-4 mb-4">per month</span>
-              <div className="mb-1"><span className="text-[15px] font-bold text-[#0F172A]">1 form / month</span></div>
-              <p className="text-[13px] text-[#64748B] mb-6">Try Fillyfy on one form session to see how it works.</p>
-              <a href="#" className="mt-auto block text-center bg-[#F8FAFF] text-[#2563EB] border-[1.5px] border-[#BFDBFE] rounded-[9px] py-2.5 text-[14px] font-semibold hover:bg-[#EFF6FF] transition-colors">
-                Get Started Free
-              </a>
-              <p className="text-[12px] text-[#94A3B8] text-center mt-3">All features included</p>
-            </motion.div>
+            <div style={{ background: 'white', border: '1px solid #E2E8F0', borderRadius: '20px', padding: '28px' }}>
+              <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: '#94A3B8', marginBottom: '10px' }}>Free</div>
+              <div style={{ fontSize: '40px', fontWeight: 800, color: '#0F172A', lineHeight: 1, marginBottom: '4px' }}>$0</div>
+              <div style={{ fontSize: '13px', color: '#64748B', marginBottom: '22px', paddingBottom: '22px', borderBottom: '1px solid #E2E8F0' }}>per month</div>
+              <div style={{ fontSize: '15px', fontWeight: 700, color: '#0F172A', marginBottom: '5px' }}>1 form / month</div>
+              <div style={{ fontSize: '13px', color: '#64748B', marginBottom: '26px' }}>Try it out</div>
+              <a href="#" style={{ display: 'block', textAlign: 'center', background: '#F8FAFF', color: '#2563EB', fontSize: '14px', fontWeight: 600, padding: '11px', borderRadius: '9px', textDecoration: 'none', border: '1.5px solid #BFDBFE', transition: 'all 0.2s' }}>Get started free</a>
+              <div style={{ marginTop: '18px', fontSize: '12px', color: '#94A3B8', textAlign: 'center' }}>All features included</div>
+            </div>
 
             {/* Starter */}
-            <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55, delay: 0.1 }}
-              className="bg-white border border-[#E2E8F0] rounded-[20px] p-7 text-left flex flex-col"
-            >
-              <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#94A3B8]">Starter</span>
-              <div className="mt-2 mb-1"><span className="text-[40px] font-extrabold text-[#0F172A]">$10</span></div>
-              <span className="text-[13px] text-[#64748B] border-b border-[#E2E8F0] pb-4 mb-4">per month</span>
-              <div className="mb-1"><span className="text-[15px] font-bold text-[#0F172A]">15 forms / month</span></div>
-              <p className="text-[13px] text-[#64748B] mb-6">For regular form filing — immigration, taxes, applications.</p>
-              <a href="#" className="mt-auto block text-center bg-[#F8FAFF] text-[#2563EB] border-[1.5px] border-[#BFDBFE] rounded-[9px] py-2.5 text-[14px] font-semibold hover:bg-[#EFF6FF] transition-colors">
-                Get Starter
-              </a>
-              <p className="text-[12px] text-[#94A3B8] text-center mt-3">All features included</p>
-            </motion.div>
+            <div style={{ background: 'white', border: '1px solid #E2E8F0', borderRadius: '20px', padding: '28px' }}>
+              <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: '#94A3B8', marginBottom: '10px' }}>Starter</div>
+              <div style={{ fontSize: '40px', fontWeight: 800, color: '#0F172A', lineHeight: 1, marginBottom: '4px' }}>$10</div>
+              <div style={{ fontSize: '13px', color: '#64748B', marginBottom: '22px', paddingBottom: '22px', borderBottom: '1px solid #E2E8F0' }}>per month</div>
+              <div style={{ fontSize: '15px', fontWeight: 700, color: '#0F172A', marginBottom: '5px' }}>15 forms / month</div>
+              <div style={{ fontSize: '13px', color: '#64748B', marginBottom: '26px' }}>Regular users</div>
+              <a href="#" style={{ display: 'block', textAlign: 'center', background: '#F8FAFF', color: '#2563EB', fontSize: '14px', fontWeight: 600, padding: '11px', borderRadius: '9px', textDecoration: 'none', border: '1.5px solid #BFDBFE', transition: 'all 0.2s' }}>Get Starter</a>
+              <div style={{ marginTop: '18px', fontSize: '12px', color: '#94A3B8', textAlign: 'center' }}>All features included</div>
+            </div>
 
             {/* Pro - Highlighted */}
-            <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55, delay: 0.2 }}
-              className="relative bg-[#2563EB] rounded-[20px] p-7 text-left flex flex-col"
-            >
-              <span className="absolute -top-[13px] left-1/2 -translate-x-1/2 bg-[#0F172A] text-white text-[10px] font-bold rounded-full px-3.5 py-1 whitespace-nowrap">
-                Most Popular
-              </span>
-              <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#93C5FD]">Pro</span>
-              <div className="mt-2 mb-1"><span className="text-[40px] font-extrabold text-white">$20</span></div>
-              <span className="text-[13px] text-[#93C5FD] border-b border-white/15 pb-4 mb-4">per month</span>
-              <div className="mb-1"><span className="text-[15px] font-bold text-white">50 forms / month</span></div>
-              <p className="text-[13px] text-[#93C5FD] mb-6">For power users tackling multiple complex applications.</p>
-              <a href="#" className="mt-auto block text-center bg-white text-[#2563EB] rounded-[9px] py-2.5 text-[14px] font-bold hover:bg-[#F8FAFF] transition-colors">
-                Get Pro
-              </a>
-              <p className="text-[12px] text-[#93C5FD] text-center mt-3">All features included</p>
-            </motion.div>
+            <div style={{ background: '#2563EB', border: '1px solid #2563EB', borderRadius: '20px', padding: '28px', position: 'relative' }}>
+              <div style={{ position: 'absolute', top: '-13px', left: '50%', transform: 'translateX(-50%)', background: '#0F172A', color: 'white', fontSize: '10px', fontWeight: 700, letterSpacing: '0.06em', padding: '4px 14px', borderRadius: '100px', whiteSpace: 'nowrap' }}>Most popular</div>
+              <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: '#93C5FD', marginBottom: '10px' }}>Pro</div>
+              <div style={{ fontSize: '40px', fontWeight: 800, color: 'white', lineHeight: 1, marginBottom: '4px' }}>$20</div>
+              <div style={{ fontSize: '13px', color: '#93C5FD', marginBottom: '22px', paddingBottom: '22px', borderBottom: '1px solid rgba(255,255,255,0.15)' }}>per month</div>
+              <div style={{ fontSize: '15px', fontWeight: 700, color: 'white', marginBottom: '5px' }}>50 forms / month</div>
+              <div style={{ fontSize: '13px', color: '#93C5FD', marginBottom: '26px' }}>Power users</div>
+              <a href="#" style={{ display: 'block', textAlign: 'center', background: 'white', color: '#2563EB', fontSize: '14px', fontWeight: 700, padding: '11px', borderRadius: '9px', textDecoration: 'none', transition: 'all 0.2s' }}>Get Pro</a>
+              <div style={{ marginTop: '18px', fontSize: '12px', color: '#93C5FD', textAlign: 'center' }}>All features included</div>
+            </div>
 
             {/* Business */}
-            <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55, delay: 0.3 }}
-              className="bg-white border border-[#E2E8F0] rounded-[20px] p-7 text-left flex flex-col"
-            >
-              <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#94A3B8]">Business</span>
-              <div className="mt-2 mb-1"><span className="text-[40px] font-extrabold text-[#0F172A]">$39</span></div>
-              <span className="text-[13px] text-[#64748B] border-b border-[#E2E8F0] pb-4 mb-4">per month</span>
-              <div className="mb-1"><span className="text-[15px] font-bold text-[#0F172A]">300 forms / month</span></div>
-              <p className="text-[13px] text-[#64748B] mb-6">For teams and heavy usage — immigration offices, tax preparers.</p>
-              <a href="#" className="mt-auto block text-center bg-[#F8FAFF] text-[#2563EB] border-[1.5px] border-[#BFDBFE] rounded-[9px] py-2.5 text-[14px] font-semibold hover:bg-[#EFF6FF] transition-colors">
-                Get Business
-              </a>
-              <p className="text-[12px] text-[#94A3B8] text-center mt-3">All features included</p>
-            </motion.div>
+            <div style={{ background: 'white', border: '1px solid #E2E8F0', borderRadius: '20px', padding: '28px' }}>
+              <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: '#94A3B8', marginBottom: '10px' }}>Business</div>
+              <div style={{ fontSize: '40px', fontWeight: 800, color: '#0F172A', lineHeight: 1, marginBottom: '4px' }}>$39</div>
+              <div style={{ fontSize: '13px', color: '#64748B', marginBottom: '22px', paddingBottom: '22px', borderBottom: '1px solid #E2E8F0' }}>per month</div>
+              <div style={{ fontSize: '15px', fontWeight: 700, color: '#0F172A', marginBottom: '5px' }}>300 forms / month</div>
+              <div style={{ fontSize: '13px', color: '#64748B', marginBottom: '26px' }}>Teams &amp; heavy users</div>
+              <a href="#" style={{ display: 'block', textAlign: 'center', background: '#F8FAFF', color: '#2563EB', fontSize: '14px', fontWeight: 600, padding: '11px', borderRadius: '9px', textDecoration: 'none', border: '1.5px solid #BFDBFE', transition: 'all 0.2s' }}>Get Business</a>
+              <div style={{ marginTop: '18px', fontSize: '12px', color: '#94A3B8', textAlign: 'center' }}>All features included</div>
+            </div>
           </div>
 
-          <p className="text-[13px] text-[#94A3B8] mt-8 text-center">
+          <p style={{ textAlign: 'center', marginTop: '24px', fontSize: '13px', color: '#94A3B8' }}>
             One form session = one use, regardless of how many fields you click
           </p>
         </div>
       </section>
 
       {/* Testimonials */}
-      <section id="testimonials" className="bg-white py-[110px] px-6">
-        <div className="max-w-[1080px] mx-auto text-center">
-          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55 }}>
-            <h2 className="font-display text-[#0F172A] leading-[1.1] font-normal mb-12" style={{ fontSize: 'clamp(30px, 4vw, 44px)' }}>
+      <section id="testimonials" style={{ padding: '110px 24px', background: 'white' }}>
+        <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55 }} style={{ textAlign: 'center', marginBottom: '56px' }}>
+            <h2 className="font-display" style={{ fontSize: 'clamp(30px, 4vw, 44px)', lineHeight: 1.1, color: '#0F172A' }}>
               People who no longer guess.
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
             {[
-              { name: 'Wei Zhang', role: 'International Student', initials: 'WZ', color: '#2563EB', quote: 'I was stuck on my DS-160 visa application for hours. Fillyfy explained "Port of Entry" in 2 seconds. Game changer for international students.' },
-              { name: 'Priya Sharma', role: 'Founder @ Dataflow AI', initials: 'PS', color: '#7C3AED', quote: 'AWS Activate wanted my "Annual Recurring Revenue" — I wasn\'t sure if grants counted. Fillyfy clarified instantly. Got approved for $100k credits.' },
-              { name: 'Carlos Rivera', role: 'Software Engineer', initials: 'CR', color: '#059669', quote: 'Green card application had 20+ confusing fields. Fillyfy saved me from hiring an immigration lawyer for basic form questions.' },
-              { name: 'Sarah Mitchell', role: 'Registered Nurse', initials: 'SM', color: '#DC2626', quote: 'Insurance prior authorization forms are a nightmare. Fillyfy explains each field so I can submit correctly the first time.' },
-              { name: 'Alex Kim', role: 'Freelance Designer', initials: 'AK', color: '#D97706', quote: 'Tax season used to give me anxiety. Now I just click confusing fields and actually understand what the IRS wants. Worth every penny.' },
-              { name: 'Marcus Johnson', role: 'DevOps Lead', initials: 'MJ', color: '#0891B2', quote: 'Even AWS console forms can be cryptic. Fillyfy helps my team understand IAM policy fields without Googling every parameter.' },
+              { initials: 'WZ', name: 'Wei Zhang', role: 'International Student, China', color: '#DBEAFE', textColor: '#2563EB', quote: '"I was applying for my student visa and had no idea what \'Port of Entry\' meant. Fillyfy explained it in seconds. I submitted the form correctly and was approved."' },
+              { initials: 'PS', name: 'Priya Sharma', role: 'Founder, Dataflow AI', color: '#DCFCE7', textColor: '#16A34A', quote: '"Used it for our AWS Activate application. The ARR field explanation alone saved us from a critical mistake. We got approved for $100K in credits."' },
+              { initials: 'CR', name: 'Carlos Rivera', role: 'Software Engineer, Mexico', color: '#FEF9C3', textColor: '#CA8A04', quote: '"English isn\'t my first language and government forms were always stressful. Fillyfy explains everything in plain language. I actually understand what I\'m submitting now."' },
+              { initials: 'SM', name: 'Sarah Mitchell', role: 'Registered Nurse', color: '#FCE7F3', textColor: '#BE185D', quote: '"Used it for a healthcare insurance claim. The document guidance was exactly what I needed — it told me which forms to attach before I even thought to ask."' },
+              { initials: 'AK', name: 'Alex Kim', role: 'Freelance Designer', color: '#EDE9FE', textColor: '#7C3AED', quote: '"Filing taxes as self-employed for the first time was terrifying. Fillyfy explained every confusing IRS field. I filed accurately and on time. Worth every penny."' },
+              { initials: 'MJ', name: 'Marcus Johnson', role: 'DevOps Lead', color: '#DBEAFE', textColor: '#1D4ED8', quote: '"I use it for onboarding our team to new cloud platforms. Enterprise admin portals are notoriously confusing. Fillyfy makes every configuration field make sense."' },
             ].map((t, i) => (
               <motion.div
                 key={i}
@@ -477,20 +518,15 @@ export default function Home() {
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.1 }}
                 transition={{ duration: 0.55, delay: (i % 3) * 0.1 }}
-                className="bg-[#F8FAFF] border border-[#E2E8F0] rounded-2xl p-7 text-left"
+                style={{ background: '#F8FAFF', border: '1px solid #E2E8F0', borderRadius: '16px', padding: '28px' }}
               >
-                <div className="text-[14px] text-[#F59E0B] mb-3">★★★★★</div>
-                <p className="text-[15px] text-[#374151] leading-[1.68] italic mb-5">&ldquo;{t.quote}&rdquo;</p>
-                <div className="flex items-center gap-3">
-                  <div
-                    className="w-9 h-9 rounded-full flex items-center justify-center text-white text-[12px] font-bold"
-                    style={{ background: t.color }}
-                  >
-                    {t.initials}
-                  </div>
+                <div style={{ display: 'flex', gap: '3px', marginBottom: '14px' }}><span style={{ color: '#F59E0B', fontSize: '14px' }}>★★★★★</span></div>
+                <p style={{ fontSize: '15px', color: '#374151', lineHeight: 1.68, marginBottom: '20px' }}>{t.quote}</p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '11px' }}>
+                  <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: t.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 700, color: t.textColor, flexShrink: 0 }}>{t.initials}</div>
                   <div>
-                    <div className="text-[14px] font-bold text-[#0F172A]">{t.name}</div>
-                    <div className="text-[12px] text-[#94A3B8]">{t.role}</div>
+                    <div style={{ fontSize: '14px', fontWeight: 700, color: '#0F172A' }}>{t.name}</div>
+                    <div style={{ fontSize: '12px', color: '#94A3B8' }}>{t.role}</div>
                   </div>
                 </div>
               </motion.div>
@@ -500,11 +536,11 @@ export default function Home() {
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="bg-[#F8FAFF] py-[110px] px-6">
-        <div className="max-w-[700px] mx-auto text-center">
+      <section id="faq" style={{ padding: '110px 24px', background: '#F8FAFF' }}>
+        <div style={{ maxWidth: '700px', margin: '0 auto', textAlign: 'center' }}>
           <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55 }}>
-            <h2 className="font-display text-[#0F172A] leading-[1.1] font-normal mb-12" style={{ fontSize: 'clamp(30px, 4vw, 44px)' }}>
-              Questions & answers.
+            <h2 className="font-display" style={{ fontSize: 'clamp(30px, 4vw, 44px)', lineHeight: 1.1, color: '#0F172A', marginBottom: '56px' }}>
+              Questions &amp; answers.
             </h2>
           </motion.div>
           <FAQ />
@@ -512,47 +548,39 @@ export default function Home() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-[100px] px-6" style={{ background: 'linear-gradient(135deg, #1D4ED8 0%, #2563EB 60%, #3B82F6 100%)' }}>
-        <div className="max-w-[680px] mx-auto text-center">
+      <section style={{ padding: '100px 24px', background: 'linear-gradient(135deg, #1D4ED8 0%, #2563EB 60%, #3B82F6 100%)' }}>
+        <div style={{ maxWidth: '680px', margin: '0 auto', textAlign: 'center' }}>
           <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.55 }}>
-            <h2 className="font-display text-white leading-[1.1] font-normal mb-5" style={{ fontSize: 'clamp(30px, 4vw, 44px)' }}>
+            <h2 className="font-display" style={{ fontSize: 'clamp(34px, 5vw, 54px)', lineHeight: 1.08, color: 'white', marginBottom: '18px' }}>
               Start understanding every form today.
             </h2>
-            <p className="text-[18px] text-[#93C5FD] leading-[1.65] mb-8">
-              Free to install. No credit card required. Works on any website, any form, any field.
+            <p style={{ fontSize: '18px', color: '#93C5FD', marginBottom: '40px', lineHeight: 1.65 }}>
+              Free to install. No credit card required.<br/>Works on any website, any form, any field.
             </p>
-            <a
-              href="#"
-              className="inline-flex items-center gap-3 bg-white text-[#2563EB] text-[16px] font-bold px-8 py-4 rounded-xl hover:-translate-y-0.5 transition-all"
-              style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.14)' }}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
-              </svg>
+            <a href="#" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', background: 'white', color: '#2563EB', fontSize: '16px', fontWeight: 700, padding: '16px 32px', borderRadius: '12px', textDecoration: 'none', transition: 'all 0.2s', boxShadow: '0 4px 24px rgba(0,0,0,0.14)' }}>
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="rgba(37,99,235,0.15)"/><circle cx="9" cy="9" r="3.5" fill="#2563EB"/></svg>
               Add to Chrome — Free
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#2563EB" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
             </a>
           </motion.div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-[#0F172A] py-11 px-6">
-        <div className="max-w-[1080px] mx-auto flex flex-wrap items-center justify-between gap-6">
+      <footer style={{ background: '#0F172A', padding: '44px 24px' }}>
+        <div style={{ maxWidth: '1080px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' as const, gap: '24px' }}>
           <div>
-            <span className="text-white text-[18px] font-extrabold">Fillyfy</span>
-            <p className="text-[13px] text-[#475569] mt-1">Understand every form. Submit with confidence.</p>
+            <div style={{ fontSize: '18px', fontWeight: 800, color: 'white', marginBottom: '6px', letterSpacing: '-0.02em' }}>Fillyfy</div>
+            <div style={{ fontSize: '13px', color: '#475569' }}>Understand every form. Submit with confidence.</div>
           </div>
-          <div className="flex flex-wrap items-center gap-6">
-            <a href="#features" className="text-[13px] text-[#64748B] hover:text-[#94A3B8] transition-colors">Features</a>
-            <a href="#how-it-works" className="text-[13px] text-[#64748B] hover:text-[#94A3B8] transition-colors">How it works</a>
-            <a href="#pricing" className="text-[13px] text-[#64748B] hover:text-[#94A3B8] transition-colors">Pricing</a>
-            <a href="#faq" className="text-[13px] text-[#64748B] hover:text-[#94A3B8] transition-colors">FAQ</a>
-            <a href="/privacy" className="text-[13px] text-[#64748B] hover:text-[#94A3B8] transition-colors">Privacy Policy</a>
+          <div style={{ display: 'flex', gap: '28px', flexWrap: 'wrap' as const }}>
+            <a href="#features" style={{ fontSize: '13px', color: '#64748B', textDecoration: 'none', transition: 'color 0.2s' }}>Features</a>
+            <a href="#how-it-works" style={{ fontSize: '13px', color: '#64748B', textDecoration: 'none', transition: 'color 0.2s' }}>How it works</a>
+            <a href="#pricing" style={{ fontSize: '13px', color: '#64748B', textDecoration: 'none', transition: 'color 0.2s' }}>Pricing</a>
+            <a href="#faq" style={{ fontSize: '13px', color: '#64748B', textDecoration: 'none', transition: 'color 0.2s' }}>FAQ</a>
+            <a href="/privacy" style={{ fontSize: '13px', color: '#64748B', textDecoration: 'none', transition: 'color 0.2s' }}>Privacy Policy</a>
           </div>
-          <p className="text-[12px] text-[#334155]">© 2025 Fillyfy. All rights reserved.</p>
+          <div style={{ fontSize: '12px', color: '#334155' }}>© 2025 Fillyfy. All rights reserved.</div>
         </div>
       </footer>
     </main>
