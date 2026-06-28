@@ -91,11 +91,12 @@ export default function Home() {
               transition={{ duration: 0.55, delay: 0.1 }}
               className="font-display"
               style={{
-                fontSize: 'clamp(40px, 5vw, 60px)',
-                lineHeight: 1.06,
-                letterSpacing: '-0.02em',
-                color: '#0F172A',
+                fontSize: 'clamp(42px, 5.5vw, 64px)',
+                lineHeight: 1.05,
+                letterSpacing: '-0.025em',
+                color: '#0D1B2A',
                 marginBottom: '22px',
+                fontWeight: 400,
               }}
             >
               Never wonder what a form is asking again.
@@ -166,33 +167,7 @@ export default function Home() {
               </a>
             </motion.div>
 
-            <motion.div
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              transition={{ duration: 0.55, delay: 0.4 }}
-              style={{ display: 'flex', alignItems: 'center', gap: '18px', flexWrap: 'wrap' as const }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <svg width="15" height="15" viewBox="0 0 15 15"><circle cx="7.5" cy="7.5" r="7.5" fill="#4285F4"/></svg>
-                <span style={{ fontSize: '12px', fontWeight: 500, color: '#64748B' }}>Chrome Web Store</span>
-              </div>
-              <span style={{ color: '#CBD5E1', fontSize: '12px' }}>·</span>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <svg width="15" height="15" viewBox="0 0 15 15"><rect width="15" height="15" rx="3" fill="#FF9900"/></svg>
-                <span style={{ fontSize: '12px', fontWeight: 500, color: '#64748B' }}>AWS Bedrock</span>
-              </div>
-              <span style={{ color: '#CBD5E1', fontSize: '12px' }}>·</span>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <svg width="15" height="15" viewBox="0 0 15 15"><rect width="15" height="15" rx="7.5" fill="#D97B4F"/></svg>
-                <span style={{ fontSize: '12px', fontWeight: 500, color: '#64748B' }}>Claude AI</span>
-              </div>
-              <span style={{ color: '#CBD5E1', fontSize: '12px' }}>·</span>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <svg width="15" height="15" viewBox="0 0 15 15"><path d="M7.5 1L1 4.5v4.5C1 12.5 4 15 7.5 15S14 12.5 14 9V4.5L7.5 1z" fill="none" stroke="#16A34A" strokeWidth="1.3"/><path d="M5 8l2 2 3.5-3.5" stroke="#16A34A" strokeWidth="1.3" strokeLinecap="round"/></svg>
-                <span style={{ fontSize: '12px', fontWeight: 500, color: '#64748B' }}>Privacy First</span>
-              </div>
-            </motion.div>
+
           </div>
 
           {/* Right Column - Demo */}
