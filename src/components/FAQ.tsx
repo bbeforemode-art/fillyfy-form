@@ -1,12 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 
 const faqItems = [
   {
     question: 'Does Fillyfy fill in my forms for me?',
-    answer: 'No. Fillyfy never types, autofills, or submits anything. It only explains what a field is asking for — you stay in full control of what you enter.',
+    answer: 'No. Fillyfy never fills, edits, or submits any form. It only explains what each field means. You stay fully in control of everything you type.',
   },
   {
     question: 'Is my data stored or used for AI training?',
@@ -35,24 +34,36 @@ const faqItems = [
 ];
 
 export default function FAQ() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(0); // First item open by default
 
   return (
-    <div className="w-full max-w-[700px] mx-auto">
+    <div style={{ width: '100%', maxWidth: '700px', margin: '0 auto' }}>
       {faqItems.map((item, index) => (
         <div
           key={index}
-          className="border-t border-[#E2E8F0]"
-          style={{ borderBottom: index === faqItems.length - 1 ? '1px solid #E2E8F0' : undefined }}
+          style={{
+            borderTop: '1px solid #E2E8F0',
+            borderBottom: index === faqItems.length - 1 ? '1px solid #E2E8F0' : undefined,
+          }}
         >
           <button
             onClick={() => setOpenIndex(openIndex === index ? null : index)}
-            className="w-full flex items-center justify-between py-5 text-left cursor-pointer"
+            style={{
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: '20px 0',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              textAlign: 'left',
+            }}
           >
-            <span className="text-[16px] font-semibold text-[#0F172A] pr-4">{item.question}</span>
-            <motion.svg
-              animate={{ rotate: openIndex === index ? 180 : 0 }}
-              transition={{ duration: 0.3, ease: 'easeInOut' }}
+            <span style={{ fontSize: '16px', fontWeight: 600, color: '#0F172A', paddingRight: '16px' }}>
+              {item.question}
+            </span>
+            <svg
               width="20"
               height="20"
               viewBox="0 0 24 24"
@@ -61,26 +72,27 @@ export default function FAQ() {
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="flex-shrink-0"
+              style={{
+                flexShrink: 0,
+                transform: openIndex === index ? 'rotate(180deg)' : 'rotate(0deg)',
+                transition: 'transform 0.3s ease',
+              }}
             >
               <polyline points="6 9 12 15 18 9" />
-            </motion.svg>
+            </svg>
           </button>
-          <AnimatePresence>
-            {openIndex === index && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ height: { duration: 0.35, ease: 'easeInOut' }, opacity: { duration: 0.25, ease: 'easeInOut' } }}
-                className="overflow-hidden"
-              >
-                <p className="text-[15px] text-[#64748B] leading-[1.7] pb-5">
-                  {item.answer}
-                </p>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <div
+            style={{
+              overflow: 'hidden',
+              maxHeight: openIndex === index ? '300px' : '0px',
+              opacity: openIndex === index ? 1 : 0,
+              transition: 'max-height 0.35s ease, opacity 0.25s ease',
+            }}
+          >
+            <p style={{ fontSize: '15px', color: '#64748B', lineHeight: 1.7, paddingBottom: '20px' }}>
+              {item.answer}
+            </p>
+          </div>
         </div>
       ))}
     </div>
