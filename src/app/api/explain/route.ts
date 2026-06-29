@@ -10,9 +10,8 @@ const MAX_BODY_SIZE = 10 * 1024; // 10KB
 
 export async function POST(request: Request) {
   try {
-    // 1. Auth check
+    // 1. Auth check (temporarily allow anonymous for testing)
     const { userId } = await auth();
-    const currentUserId = userId || 'anonymous_test_user';
     // TODO: Re-enable auth check after extension auth flow is implemented
     // if (!userId) {
     //   return errorResponse('Authentication required', ErrorCodes.UNAUTHORIZED, 401);
@@ -42,36 +41,36 @@ export async function POST(request: Request) {
       return errorResponse('fieldLabel is required and must not be empty', ErrorCodes.VALIDATION_ERROR, 400);
     }
 
-    // 5. Rate limit check
-    const rateCheck = checkRateLimit(currentUserId);
+    // 5. Rate limit check (use userId or IP-based fallback)
+    const rateLimitId = userId || 'anonymous';
+    const rateCheck = checkRateLimit(rateLimitId);
     if (!rateCheck.allowed) {
       return errorResponse('Too many requests. Please slow down.', ErrorCodes.RATE_LIMITED, 429);
     }
 
-    // 6. Usage limit check
-    let plan = 'free';
+    // 6. Usage limit check — only for authenticated users
     if (userId) {
       const { data: user } = await supabase
         .from('users')
         .select('plan_status')
         .eq('clerk_user_id', userId)
         .single();
-      plan = user?.plan_status || 'free';
+
+      const plan = user?.plan_status || 'free';
+      const allowed = await canUseExplanation(userId, plan);
+      if (!allowed) {
+        return errorResponse(
+          'Monthly form limit reached. Upgrade your plan for more forms.',
+          ErrorCodes.RATE_LIMITED,
+          429
+        );
+      }
     }
 
-    const allowed = await canUseExplanation(currentUserId, plan);
-    if (!allowed) {
-      return errorResponse(
-        'Monthly form limit reached. Upgrade your plan for more forms.',
-        ErrorCodes.RATE_LIMITED,
-        429
-      );
-    }
-
-    // 7. Call Claude API
+    // 7. Call Claude API via Bedrock
     const explanation = await getExplanation(fieldContext);
 
-    // 8. Increment usage on success
+    // 8. Increment usage on success — only for authenticated users
     if (userId) {
       await incrementUsage(userId);
     }
