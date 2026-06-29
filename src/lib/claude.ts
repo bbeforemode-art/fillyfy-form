@@ -9,7 +9,7 @@ const client = new BedrockRuntimeClient({
   },
 });
 
-const MODEL_ID = 'anthropic.claude-sonnet-4-20250514-v1:0';
+const MODEL_ID = 'us.anthropic.claude-sonnet-4-20250514-v1:0';
 
 const SYSTEM_PROMPT = `You are Fillyfy, an expert form guide. A user is filling a form and needs help with a specific field. Respond ONLY with valid JSON in this exact format:
 {
