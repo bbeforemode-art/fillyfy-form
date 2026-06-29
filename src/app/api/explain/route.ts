@@ -48,24 +48,25 @@ export async function POST(request: Request) {
       return errorResponse('Too many requests. Please slow down.', ErrorCodes.RATE_LIMITED, 429);
     }
 
-    // 6. Usage limit check — only for authenticated users
-    if (userId) {
-      const { data: user } = await supabase
-        .from('users')
-        .select('plan_status')
-        .eq('clerk_user_id', userId)
-        .single();
-
-      const plan = user?.plan_status || 'free';
-      const allowed = await canUseExplanation(userId, plan);
-      if (!allowed) {
-        return errorResponse(
-          'Monthly form limit reached. Upgrade your plan for more forms.',
-          ErrorCodes.RATE_LIMITED,
-          429
-        );
-      }
-    }
+    // 6. Usage limit check — DISABLED FOR TESTING
+    // TODO: Re-enable before production launch
+    // if (userId) {
+    //   const { data: user } = await supabase
+    //     .from('users')
+    //     .select('plan_status')
+    //     .eq('clerk_user_id', userId)
+    //     .single();
+    //
+    //   const plan = user?.plan_status || 'free';
+    //   const allowed = await canUseExplanation(userId, plan);
+    //   if (!allowed) {
+    //     return errorResponse(
+    //       'Monthly form limit reached. Upgrade your plan for more forms.',
+    //       ErrorCodes.RATE_LIMITED,
+    //       429
+    //     );
+    //   }
+    // }
 
     // 7. Call Claude API via Bedrock
     const explanation = await getExplanation(fieldContext);
