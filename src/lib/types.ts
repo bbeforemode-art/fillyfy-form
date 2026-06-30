@@ -26,6 +26,7 @@ export interface FieldContext {
   formTitle?: string;
   pageTitle?: string;
   pageUrl?: string;
+  surroundingHtml?: string;
 }
 
 export interface ExplanationResponse {

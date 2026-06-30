@@ -23,15 +23,22 @@ const SYSTEM_PROMPT = `You are Fillyfy, an expert form guide. A user is filling 
 Be concise, friendly, and reassuring. Use plain language a non-technical person can understand.`;
 
 function buildUserPrompt(context: FieldContext): string {
-  return `Form Context:
+  let prompt = `Form Context:
 - Page: ${context.pageTitle || 'Unknown page'}
 - Form Title: ${context.formTitle || 'Unknown form'}
 - Field Label: ${context.fieldLabel}
 - Field Placeholder: ${context.fieldPlaceholder || 'none'}
 - Field Type: ${context.fieldType || 'text'}
-- Field Required: ${context.fieldRequired ? 'Yes' : 'No'}
+- Field Name/ID: ${context.fieldName || 'none'}
+- Field Required: ${context.fieldRequired ? 'Yes' : 'No'}`;
 
-Please explain this field.`;
+  if (context.surroundingHtml) {
+    prompt += `\n- Surrounding HTML context: ${context.surroundingHtml}`;
+  }
+
+  prompt += '\n\nPlease explain this field. If the field label says "Unknown field", use the surrounding HTML context and field name/ID to determine what this field is actually asking for.';
+
+  return prompt;
 }
 
 /**
