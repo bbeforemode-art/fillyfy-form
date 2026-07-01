@@ -12,6 +12,8 @@ const isPublicRoute = createRouteMatcher([
   '/api/webhooks/razorpay',
   '/api/cron/(.*)',
   '/api/explain',  // TODO: Remove after auth flow is implemented in extension
+  '/api/v2/explain',
+  '/api/v2/explain/batch',
 ]);
 
 const ALLOWED_ORIGINS = [
